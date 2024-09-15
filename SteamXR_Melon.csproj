@@ -314,7 +314,7 @@
 
     <Target Name="PostBuild" AfterTargets="PostBuildEvent">
         <Exec Command="copy .\bin\x64\Debug\net6.0\SteamXR_Melon.dll &quot;..\HPVR\Resources\SteamXR_Melon.dll&quot; /y" />
-        <Exec Command="copy .\Runtime\x64\XRSDKOpenVR.dll &quot;..\HPVR\Resources\XRSDKOpenVR.dll&quot; /y" />
+        <Exec Command="copy .\Runtime\x64\\XRSDKOpenVR\XRSDKOpenVR.dll &quot;..\HPVR\Resources\XRSDKOpenVR.dll&quot; /y" />
     </Target>
 
 </Project>

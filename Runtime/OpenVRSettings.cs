@@ -7,6 +7,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using UnityEngine;
+using Valve.VR;
 
 #if UNITY_XR_MANAGEMENT
 using UnityEngine.XR.Management;
@@ -50,7 +51,7 @@ namespace Unity.XR.OpenVR
         public bool PromptToUpgradePreviewPackages = true;
 
         [Description("This allows developers to skip upgrade prompts for just this version.")]
-        public string? SkipPromptForVersion = null;
+        public string SkipPromptForVersion = null;
 
         [Description("Set the Stereo Rendering Method")]
         public StereoRenderingModes StereoRenderingMode = StereoRenderingModes.SinglePassInstanced;
@@ -59,7 +60,7 @@ namespace Unity.XR.OpenVR
         public InitializationTypes InitializationType = InitializationTypes.Scene;
 
         [Description("A generated unique identifier for your application while in the editor")]
-        public string? EditorAppKey = null;
+        public string EditorAppKey = null;
 
         [Description("Internal value that tells the system what the relative path is to the manifest")]
         public string ActionManifestFileRelativeFilePath;
@@ -170,20 +171,14 @@ namespace Unity.XR.OpenVR
             string oldPath = ActionManifestFileRelativeFilePath;
             string newPath;
 
-            if (OpenVRHelpers.IsUsingSteamVRInput())
-            {
-                newPath = System.IO.Path.Combine(OpenVRSettings.GetStreamingSteamVRPath(false), OpenVRHelpers.GetActionManifestNameFromPlugin());
 
-                string fullpath = System.IO.Path.GetFullPath(".");
-                newPath = newPath.Remove(0, fullpath.Length + 1);
+            newPath = System.IO.Path.Combine(OpenVRSettings.GetStreamingSteamVRPath(false), SteamVR_Input.GetActionsFilePath());
 
-                if (newPath.StartsWith("Assets"))
-                    newPath = newPath.Remove(0, "Assets".Length + 1);
-            }
-            else
-            {
-                newPath = null;
-            }
+            string fullpath = System.IO.Path.GetFullPath(".");
+            newPath = newPath.Remove(0, fullpath.Length + 1);
+
+            if (newPath.StartsWith("Assets"))
+                newPath = newPath.Remove(0, "Assets".Length + 1);
 
 #if UNITY_EDITOR
             if (newPath != oldPath)

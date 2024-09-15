@@ -11,7 +11,6 @@ namespace Unity.XR.OpenVR
 
         //dictionaries are slow/allocate in mono for some reason. So we just allocate a bunch at the beginning.
         private OpenVREvent[] events;
-        private int[] eventIndicies;
         private VREvent_t vrEvent;
         private uint vrEventSize;
 
@@ -34,31 +33,29 @@ namespace Unity.XR.OpenVR
 
         public OpenVREvents(bool lazyLoadEvents = false)
         {
-            if (OpenVRHelpers.IsUsingSteamVRInput())
-            {
-                enabled = false; //let the steamvr plugin handle events
-                return;
-            }
 
-            instance = this;
-            events = new OpenVREvent[(int)EVREventType.VREvent_VendorSpecific_Reserved_End];
+            enabled = false; //let the steamvr plugin handle events
+            return;
 
-            vrEvent = new VREvent_t();
-            vrEventSize = (uint)System.Runtime.InteropServices.Marshal.SizeOf(typeof(VREvent_t));
+            //instance = this;
+            //events = new OpenVREvent[(int)EVREventType.VREvent_VendorSpecific_Reserved_End];
 
-            if (lazyLoadEvents == false)
-            {
-                for (int eventIndex = 0; eventIndex < events.Length; eventIndex++)
-                {
-                    events[eventIndex] = new OpenVREvent();
-                }
-            }
-            else
-            {
-                preloadedEvents = true;
-            }
+            //vrEvent = new VREvent_t();
+            //vrEventSize = (uint)System.Runtime.InteropServices.Marshal.SizeOf(typeof(VREvent_t));
 
-            RegisterDefaultEvents();
+            //if (lazyLoadEvents == false)
+            //{
+            //    for (int eventIndex = 0; eventIndex < events.Length; eventIndex++)
+            //    {
+            //        events[eventIndex] = new OpenVREvent();
+            //    }
+            //}
+            //else
+            //{
+            //    preloadedEvents = true;
+            //}
+
+            //RegisterDefaultEvents();
         }
 
         public void RegisterDefaultEvents()
