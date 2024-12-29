@@ -69,7 +69,7 @@ namespace Unity.XR.OpenVR
         public MirrorViewModes MirrorView = MirrorViewModes.Right;
 
         public const string StreamingAssetsFolderName = "SteamVR_Melon";
-        public const string ActionManifestFileName = "legacy_manifest.json";
+        public const string ActionManifestFileName = "action.json";
         public static string GetStreamingSteamVRPath(bool create = true)
         {
             string path = System.IO.Path.Combine(Application.streamingAssetsPath, StreamingAssetsFolderName);
@@ -121,7 +121,7 @@ namespace Unity.XR.OpenVR
 
         public string GenerateEditorAppKey()
         {
-            return string.Format("application.generated.unity.{0}.{1}.exe", CleanProductName(), ((int)(UnityEngine.Random.value * int.MaxValue)).ToString());
+            return string.Format("application.generated.unity.houseparty.exe");
         }
 
         private static string CleanProductName()
@@ -207,7 +207,7 @@ namespace Unity.XR.OpenVR
 
         public void Awake()
         {
-            MelonLogger.Msg("Settings were awoken");
+            MelonLogger.Msg("OpenVRSettings were awoken");
             s_Settings = this;
         }
 #endif
