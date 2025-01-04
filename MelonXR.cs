@@ -2,7 +2,6 @@
 using MelonLoader;
 using SteamVR_Melon.Standalone;
 using System;
-using System.Runtime.InteropServices;
 using Unity.XR.OpenVR;
 using UnityEngine;
 using UnityEngine.SubsystemsImplementation;
