@@ -10,9 +10,9 @@ namespace Unity.XR.OpenVR
         private static OpenVREvents instance;
 
         //dictionaries are slow/allocate in mono for some reason. So we just allocate a bunch at the beginning.
-        private OpenVREvent[] events;
+        private OpenVREvent[] events = Array.Empty<OpenVREvent>();
         private VREvent_t vrEvent;
-        private uint vrEventSize;
+        private uint vrEventSize = 0;
 
         private bool preloadedEvents = false;
 
