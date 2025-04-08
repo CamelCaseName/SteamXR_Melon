@@ -114,7 +114,9 @@ namespace Unity.XR.OpenVR
                 for (int eventIndex = 0; eventIndex < maxEventsPerUpdate; eventIndex++)
                 {
                     if (Valve.VR.OpenVR.System == null || !Valve.VR.OpenVR.System.PollNextEvent(ref vrEvent, vrEventSize))
+                    {
                         break;
+                    }
 
                     int uEventType = (int)vrEvent.eventType;
 

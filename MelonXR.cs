@@ -11,8 +11,8 @@ namespace SteamXR_Melon
 {
     public static class MelonXR
     {
-        public static XRDisplaySubsystem xrDisplay;
-        public static XRInputSubsystem xrInput;
+        private static XRDisplaySubsystem xrDisplay;
+        private static XRInputSubsystem xrInput;
 
         public static void Initialize()
         {

@@ -85,10 +85,14 @@ namespace Unity.XR.OpenVR
         private static void CreateDirectory(DirectoryInfo directory)
         {
             if (directory.Parent.Exists == false)
+            {
                 CreateDirectory(directory.Parent);
+            }
 
             if (directory.Exists == false)
+            {
                 directory.Create();
+            }
         }
 
         [Description("Internal value that tells the system if we have copied the default binding files yet.")]
@@ -128,7 +132,9 @@ namespace Unity.XR.OpenVR
         {
             string productName = Application.productName;
             if (string.IsNullOrEmpty(productName))
+            {
                 productName = "unnamed_product";
+            }
             else
             {
                 productName = System.Text.RegularExpressions.Regex.Replace(productName, "[^\\w\\._]", "");
@@ -157,7 +163,9 @@ namespace Unity.XR.OpenVR
 #endif
 
             if (settings == null && create)
+            {
                 settings = OpenVRSettings.CreateInstance<OpenVRSettings>();
+            }
 
             return settings;
         }
@@ -178,7 +186,9 @@ namespace Unity.XR.OpenVR
             newPath = newPath.Remove(0, fullpath.Length + 1);
 
             if (newPath.StartsWith("Assets"))
+            {
                 newPath = newPath.Remove(0, "Assets".Length + 1);
+            }
 
 #if UNITY_EDITOR
             if (newPath != oldPath)
