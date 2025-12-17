@@ -18,8 +18,8 @@ namespace Unity.XR.OpenVR
 #if UNITY_XR_MANAGEMENT
     [XRConfigurationData("OpenVR", "Unity.XR.OpenVR.Settings")]
 #endif
-    [System.Serializable]
-    [MelonLoader.RegisterTypeInIl2Cpp(true)]
+    [Serializable]
+    [RegisterTypeInIl2Cpp(true)]
     public class OpenVRSettings : ScriptableObject
     {
         public OpenVRSettings(IntPtr intPtr) : base(intPtr) { }
