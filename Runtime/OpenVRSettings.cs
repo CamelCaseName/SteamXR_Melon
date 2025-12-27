@@ -173,14 +173,12 @@ namespace Unity.XR.OpenVR
         [DllImport("XRSDKOpenVR", CharSet = CharSet.Auto)]
         public static extern void SetMirrorViewMode(ushort mirrorViewMode);
 
-
         public bool InitializeActionManifestFileRelativeFilePath()
         {
             string oldPath = ActionManifestFileRelativeFilePath;
             string newPath;
 
-
-            newPath = System.IO.Path.Combine(OpenVRSettings.GetStreamingSteamVRPath(false), SteamVR_Input.GetActionsFilePath());
+            newPath = System.IO.Path.Combine(OpenVRSettings.GetStreamingSteamVRPath(false), SteamVRInput.GetActionsFilePath());
 
             string fullpath = System.IO.Path.GetFullPath(".");
             newPath = newPath.Remove(0, fullpath.Length + 1);

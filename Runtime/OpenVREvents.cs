@@ -4,14 +4,14 @@ using Valve.VR;
 
 namespace Unity.XR.OpenVR
 {
-    public class OpenVREvent : SteamVR_Events.Event<VREvent_t> { }
+    public class OpenVREvent : SteamVREvents.Event<VREventT> { }
     public class OpenVREvents
     {
         private static OpenVREvents instance;
 
         //dictionaries are slow/allocate in mono for some reason. So we just allocate a bunch at the beginning.
         private OpenVREvent[] events = Array.Empty<OpenVREvent>();
-        private VREvent_t vrEvent;
+        private VREventT vrEvent;
         private uint vrEventSize = 0;
 
         private bool preloadedEvents = false;
@@ -60,14 +60,14 @@ namespace Unity.XR.OpenVR
 
         public void RegisterDefaultEvents()
         {
-            AddListener(EVREventType.VREvent_Quit, On_VREvent_Quit);
+            AddListener(EVREventType.VREventQuit, On_VREvent_Quit);
         }
 
-        public static void AddListener(EVREventType eventType, Action<VREvent_t> action, bool removeOtherListeners = false)
+        public static void AddListener(EVREventType eventType, Action<VREventT> action, bool removeOtherListeners = false)
         {
             instance.Add(eventType, action, removeOtherListeners);
         }
-        public void Add(EVREventType eventType, Action<VREvent_t> action, bool removeOtherListeners = false)
+        public void Add(EVREventType eventType, Action<VREventT> action, bool removeOtherListeners = false)
         {
             if (!enabled)
             {
@@ -89,11 +89,11 @@ namespace Unity.XR.OpenVR
             events[eventIndex].Listen(action);
         }
 
-        public static void RemoveListener(EVREventType eventType, Action<VREvent_t> action)
+        public static void RemoveListener(EVREventType eventType, Action<VREventT> action)
         {
             instance.Remove(eventType, action);
         }
-        public void Remove(EVREventType eventType, Action<VREvent_t> action)
+        public void Remove(EVREventType eventType, Action<VREventT> action)
         {
             int eventIndex = (int)eventType;
             if (preloadedEvents || events[eventIndex] != null)
@@ -137,7 +137,7 @@ namespace Unity.XR.OpenVR
         private bool exiting = false;
 
         #region DefaultEvents
-        private void On_VREvent_Quit(VREvent_t pEvent)
+        private void On_VREvent_Quit(VREventT pEvent)
         {
             if (exiting == true)
             {
@@ -147,7 +147,7 @@ namespace Unity.XR.OpenVR
 
             if (Valve.VR.OpenVR.System != null)
             {
-                Valve.VR.OpenVR.System.AcknowledgeQuit_Exiting();
+                Valve.VR.OpenVR.System.AcknowledgeQuitExiting();
             }
 
 #if UNITY_EDITOR

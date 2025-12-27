@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEngine.SubsystemsImplementation;
 using UnityEngine.XR;
 
-namespace SteamXR_Melon
+namespace SteamXRMelon
 {
     public static class MelonXR
     {
