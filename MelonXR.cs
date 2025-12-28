@@ -18,8 +18,11 @@ namespace SteamXRMelon
         {
             //load the plugin
             PluginImporter.LoadPlugin(OpenVRMagic.XRSDKOpenVR);
+            var settings = ScriptableObject.CreateInstance<OpenVRSettings>();
+            settings.StereoRenderingMode = OpenVRSettings.StereoRenderingModes.MultiPass;
+            settings.MirrorView = OpenVRSettings.MirrorViewModes.None;
+            settings.InitializationType = OpenVRSettings.InitializationTypes.Scene;
             OpenVREvents.Initialize();
-            ScriptableObject.CreateInstance<OpenVRSettings>();
 
             //register and initialize the iunitysubsystem lifecycle for the plugin
             //display first then input
