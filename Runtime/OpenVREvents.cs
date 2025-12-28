@@ -10,14 +10,14 @@ namespace Unity.XR.OpenVR
         private static OpenVREvents instance;
 
         //dictionaries are slow/allocate in mono for some reason. So we just allocate a bunch at the beginning.
-        private OpenVREvent[] events = Array.Empty<OpenVREvent>();
+        private readonly OpenVREvent[] events = Array.Empty<OpenVREvent>();
         private VREventT vrEvent;
-        private uint vrEventSize = 0;
+        private readonly uint vrEventSize = 0;
 
-        private bool preloadedEvents = false;
+        private readonly bool preloadedEvents = false;
 
         private const int maxEventsPerUpdate = 64;
-        private static bool debugLogAllEvents = false;
+        private static readonly bool debugLogAllEvents = false;
 
         private static bool enabled = true;
 
@@ -126,10 +126,7 @@ namespace Unity.XR.OpenVR
                         Debug.Log(string.Format("[{0}] {1}", Time.frameCount, eventType.ToString()));
                     }
 
-                    if (events[uEventType] != null)
-                    {
-                        events[uEventType].Send(vrEvent);
-                    }
+                    events[uEventType]?.Send(vrEvent);
                 }
             }
         }
@@ -145,10 +142,7 @@ namespace Unity.XR.OpenVR
             }
             exiting = true;
 
-            if (Valve.VR.OpenVR.System != null)
-            {
-                Valve.VR.OpenVR.System.AcknowledgeQuitExiting();
-            }
+            Valve.VR.OpenVR.System?.AcknowledgeQuitExiting();
 
 #if UNITY_EDITOR
             Debug.Log("<b>[OpenVR]</b> Quit requested from OpenVR. Exiting application via EditorApplication.isPlaying = false");
