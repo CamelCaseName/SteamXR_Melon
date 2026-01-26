@@ -8,7 +8,7 @@
       <DefineConstants>TRACE;DEBUG;UNITY_2017_1_OR_NEWER;UNITY_2017_2_OR_NEWER;UNITY_2018_3_OR_NEWER;UNITY_5_3_OR_NEWER;UNITY_URP;ENABLE_VR</DefineConstants>
       <PlatformTarget>x64</PlatformTarget>
       <ProduceReferenceAssembly>False</ProduceReferenceAssembly>
-      <Configurations>Debug</Configurations>
+      <Configurations>Debug;DebugNoVR</Configurations>
   </PropertyGroup>
 
   <ItemGroup>
@@ -309,6 +309,9 @@
     </Reference>
   </ItemGroup>
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      <GenerateAssemblyInfo>False</GenerateAssemblyInfo>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugNoVR|x64'">
       <GenerateAssemblyInfo>False</GenerateAssemblyInfo>
     </PropertyGroup>
 
