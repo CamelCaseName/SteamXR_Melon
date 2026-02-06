@@ -11,6 +11,7 @@ namespace UnityEngine.XR.OpenXR.Input
     [MelonLoader.RegisterTypeInIl2Cpp(true)]
     internal class OpenXRHmd : XRHMD
     {
+        int i = 0;
         public OpenXRHmd() : base(ClassInjector.DerivedConstructorPointer<OpenXRHmd>()) => ClassInjector.DerivedConstructorBody(this);
         public OpenXRHmd(IntPtr ptr) : base(ptr) { }
         // Token: 0x17000028 RID: 40
@@ -23,8 +24,13 @@ namespace UnityEngine.XR.OpenXR.Input
 		// Token: 0x060000FA RID: 250 RVA: 0x0000419A File Offset: 0x0000239A
 		public override void FinishSetup()
 		{
-			base.FinishSetup();
-			this.userPresence = base.GetChildControl<ButtonControl>("UserPresence");
+            if(i == 0)
+            {
+                i++;
+                base.FinishSetup();
+            }
+
+            this.userPresence = base.GetChildControl<ButtonControl>("UserPresence");
 		}
 	}
 }
