@@ -2,12 +2,13 @@
 using MelonLoader;
 using SteamVR_Melon.Standalone;
 using System;
-using Unity.XR.OpenVR;
 using UnityEngine;
 using UnityEngine.SubsystemsImplementation;
 using UnityEngine.XR;
+using UnityEngine.XR.Management;
+using UnityEngine.XR.OpenXR;
 
-namespace SteamXRMelon
+namespace SteamXR_Melon
 {
     public static class MelonXR
     {
@@ -17,12 +18,24 @@ namespace SteamXRMelon
         public static void Initialize()
         {
             //load the plugin
-            PluginImporter.LoadPlugin(OpenVRMagic.XRSDKOpenVR);
-            var settings = ScriptableObject.CreateInstance<OpenVRSettings>();
-            settings.StereoRenderingMode = OpenVRSettings.StereoRenderingModes.MultiPass;
-            settings.MirrorView = OpenVRSettings.MirrorViewModes.None;
-            settings.InitializationType = OpenVRSettings.InitializationTypes.Scene;
-            OpenVREvents.Initialize();
+            PluginImporter.LoadPlugin("UnityOpenXR");
+            PluginImporter.LoadPlugin("openxr_loader");
+
+            RegisterTypeInIl2Cpp.RegisterAssembly(typeof(XRGeneralSettings).Assembly);
+            RegisterTypeInIl2Cpp.RegisterAssembly(typeof(OpenXRSettings).Assembly);
+
+            MelonLogger.Msg("Creating XRGeneralSettings");
+            ScriptableObject.CreateInstance<XRGeneralSettings>();
+            MelonLogger.Msg("Creating XRManagerSettings");
+            XRGeneralSettings.Instance.Manager = ScriptableObject.CreateInstance<XRManagerSettings>();
+            if (XRGeneralSettings.Instance.Manager.TryAddLoader(ScriptableObject.CreateInstance<OpenXRLoader>()))
+            {
+                MelonLogger.Msg("Added OpenXRLoader");
+            }
+            //XRGeneralSettings.AttemptInitializeXRSDKOnLoad();
+
+            MelonLogger.Msg("Initializing OpenXR Loader");
+            XRGeneralSettings.Instance.Manager.InitializeLoaderSync();
 
             //register and initialize the iunitysubsystem lifecycle for the plugin
             //display first then input
@@ -33,14 +46,14 @@ namespace SteamXRMelon
 
             //ref https://docs.unity3d.com/Manual/xrsdk-runtime-discovery.html
 
-            //now the openvr systems can be accessed inside the integrated descriptor list
+            //now the openxr systems can be accessed inside the integrated descriptor list
             foreach (var d in SubsystemDescriptorStore.s_IntegratedDescriptors)
             {
                 MelonLogger.Msg("display id: " + d.id);
 
                 //MelonLogger.Msg("casting the descriptor");
 
-                if (d.id.Contains("Display"))
+                if (d.id.Contains("Display") && xrDisplay is null)
                 {
                     var disp = d.Cast<XRDisplaySubsystemDescriptor>();
                     //MelonLogger.Msg(disp.disablesLegacyVr);
@@ -49,21 +62,21 @@ namespace SteamXRMelon
 
                     //MelonLogger.Msg("casting instance");
                     xrDisplay = inst.Cast<XRDisplaySubsystem>();
-                    MelonLogger.Msg("Starting openvr subsystem instance");
-                    xrDisplay.Start();
                 }
-                else if (d.id.Contains("Input"))
+                else if (d.id.Contains("Input") && xrInput is null)
                 {
                     var inp = d.Cast<XRInputSubsystemDescriptor>();
                     //MelonLogger.Msg(inp.disablesLegacyInput);
                     MelonLogger.Msg("creating input instance");
                     var inst = inp.Create();
 
-                    MelonLogger.Msg("casting instance");
+                    //MelonLogger.Msg("casting instance");
                     xrInput = inst.Cast<XRInputSubsystem>();
-                    xrInput.Start();
                 }
             }
+
+            MelonLogger.Msg("Starting XR Subsystems");
+            XRGeneralSettings.Instance.Manager.StartSubsystems();
         }
     }
 

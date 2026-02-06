@@ -1,0 +1,52 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+	  <PlatformTarget>x64</PlatformTarget>
+	  <Platforms>x64</Platforms>
+	  <ProduceReferenceAssembly>False</ProduceReferenceAssembly>
+    <OutputType>Library</OutputType>
+    <RootNamespace>UnityEngine.XR.Management</RootNamespace>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+	  <Configurations>Debug;Release</Configurations>
+	  <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="0Harmony">
+      <HintPath>G:\SteamLibrary\steamapps\common\House Party\MelonLoader\net6\0Harmony.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Il2CppInterop.Common">
+      <HintPath>G:\SteamLibrary\steamapps\common\House Party\MelonLoader\net6\Il2CppInterop.Common.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Il2CppInterop.HarmonySupport">
+      <HintPath>G:\SteamLibrary\steamapps\common\House Party\MelonLoader\net6\Il2CppInterop.HarmonySupport.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Il2CppInterop.Runtime">
+      <HintPath>G:\SteamLibrary\steamapps\common\House Party\MelonLoader\net6\Il2CppInterop.Runtime.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Il2Cppmscorlib">
+      <HintPath>G:\SteamLibrary\steamapps\common\House Party\MelonLoader\Il2CppAssemblies\Il2Cppmscorlib.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="MelonLoader">
+      <HintPath>G:\SteamLibrary\steamapps\common\House Party\MelonLoader\net6\MelonLoader.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>G:\SteamLibrary\steamapps\common\House Party\MelonLoader\Il2CppAssemblies\UnityEngine.CoreModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.SubsystemsModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>G:\SteamLibrary\steamapps\common\House Party\MelonLoader\Il2CppAssemblies\UnityEngine.SubsystemsModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
+		<Exec Command="copy .\bin\x64\Debug\net6.0\Unity.XR.Management.dll &quot;..\..\..\HPVR\Resources\Unity.XR.Management.dll&quot; /y &amp; del &quot;G:\SteamLibrary\steamapps\common\House Party\UserLibs\Unity.XR.Management.dll&quot;" />
+	</Target>
+</Project>
