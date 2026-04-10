@@ -3,10 +3,12 @@ using MelonLoader;
 using SteamVR_Melon.Standalone;
 using System;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.SubsystemsImplementation;
 using UnityEngine.XR;
 using UnityEngine.XR.Management;
 using UnityEngine.XR.OpenXR;
+using UnityEngine.XR.WindowsMR.Input;
 
 namespace SteamXR_Melon
 {
@@ -14,6 +16,7 @@ namespace SteamXR_Melon
     {
         private static XRDisplaySubsystem xrDisplay;
         private static XRInputSubsystem xrInput;
+        private static Il2CppSystem.Collections.Generic.List<Il2CppSystem.Object> list = new();
 
         public static void Initialize()
         {
@@ -24,11 +27,25 @@ namespace SteamXR_Melon
             RegisterTypeInIl2Cpp.RegisterAssembly(typeof(XRGeneralSettings).Assembly);
             RegisterTypeInIl2Cpp.RegisterAssembly(typeof(OpenXRSettings).Assembly);
 
+            OpenXRSettings.Instance.renderMode = OpenXRSettings.RenderMode.MultiPass;
+
             MelonLogger.Msg("Creating XRGeneralSettings");
-            ScriptableObject.CreateInstance<XRGeneralSettings>();
+            var obj = ScriptableObject.CreateInstance<XRGeneralSettings>();
+            list.Add(obj);
+            UnityEngine.Object.DontDestroyOnLoad(obj);
             MelonLogger.Msg("Creating XRManagerSettings");
+
+            list.Add(list);
+
             XRGeneralSettings.Instance.Manager = ScriptableObject.CreateInstance<XRManagerSettings>();
-            if (XRGeneralSettings.Instance.Manager.TryAddLoader(ScriptableObject.CreateInstance<OpenXRLoader>()))
+            list.Add(XRGeneralSettings.Instance);
+            UnityEngine.Object.DontDestroyOnLoad(XRGeneralSettings.Instance);
+            list.Add(XRGeneralSettings.Instance.Manager);
+            UnityEngine.Object.DontDestroyOnLoad(XRGeneralSettings.Instance.Manager);
+            var loader = ScriptableObject.CreateInstance<OpenXRLoader>();
+            UnityEngine.Object.DontDestroyOnLoad(loader);
+            list.Add(loader);
+            if (XRGeneralSettings.Instance.Manager.TryAddLoader(loader))
             {
                 MelonLogger.Msg("Added OpenXRLoader");
             }
@@ -77,6 +94,11 @@ namespace SteamXR_Melon
 
             MelonLogger.Msg("Starting XR Subsystems");
             XRGeneralSettings.Instance.Manager.StartSubsystems();
+
+            foreach (var supported in XRGraphics.supportedDevices)
+            {
+                MelonLogger.Msg("supported: " + supported);
+            }
         }
     }
 

@@ -188,6 +188,7 @@ namespace UnityEngine.XR.Management
         // Token: 0x0600003A RID: 58 RVA: 0x000026F8 File Offset: 0x000008F8
         private void Awake()
         {
+            MelonLogger.Msg("XRManager awaken");
             foreach (XRLoader loader in this.currentLoaders)
             {
                 if (!this.m_RegisteredLoaders.Contains(loader))

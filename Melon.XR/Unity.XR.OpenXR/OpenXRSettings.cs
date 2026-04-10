@@ -400,6 +400,7 @@ namespace UnityEngine.XR.OpenXR
 			if (settings == null)
 			{
 				settings = ScriptableObject.CreateInstance<OpenXRSettings>();
+				Object.DontDestroyOnLoad(settings);
 			}
 			return settings;
 		}

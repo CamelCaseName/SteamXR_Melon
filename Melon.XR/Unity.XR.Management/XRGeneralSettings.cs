@@ -59,7 +59,7 @@ namespace UnityEngine.XR.Management
 		{
 			MelonLogger.Msg("XRGeneral Settings awakening...");
 			XRGeneralSettings.s_RuntimeSettingsInstance = this;
-			Application.add_quitting(new System.Action(XRGeneralSettings.Quit));
+			//Application.add_quitting(new System.Action(XRGeneralSettings.Quit));
 			Object.DontDestroyOnLoad(XRGeneralSettings.s_RuntimeSettingsInstance);
 		}
 
@@ -77,6 +77,7 @@ namespace UnityEngine.XR.Management
 		// Token: 0x06000010 RID: 16 RVA: 0x0000216F File Offset: 0x0000036F
 		private void Start()
 		{
+			MelonLogger.Msg("starting xrsdk");
 			this.StartXRSDK();
 		}
 
