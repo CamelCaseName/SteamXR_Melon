@@ -6,8 +6,9 @@ using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
 using UnityEngine.InputSystem.Layouts;
 using UnityEngine.InputSystem.XR;
-using UnityEngine.Scripting;
 using UnityEngine.XR.OpenXR.Input;
+using InputControlAttribute = UnityEngine.XR.OpenXR.Il2CppShenanigans.InputControlAttribute;
+using InputControlLayoutAttribute = UnityEngine.XR.OpenXR.Il2CppShenanigans.InputControlLayoutAttribute;
 
 namespace UnityEngine.XR.OpenXR.Features.Interactions
 {
@@ -517,25 +518,26 @@ namespace UnityEngine.XR.OpenXR.Features.Interactions
 		private const string kDeviceLocalizedName = "Index Controller OpenXR";
 
 		// Token: 0x0200006F RID: 111
-		//[InputControlLayout(displayName = "Index Controller (OpenXR)", commonUsages = new string[]
-		//{
-		//	"LeftHand",
-		//	"RightHand"
-		//})]
-		//[Preserve]
-		public class ValveIndexController : XRControllerWithRumble
+		[InputControlLayout(displayName = "Index Controller (OpenXR)", commonUsages = new string[]
+		{
+			"LeftHand",
+			"RightHand"
+		})]
+        [MelonLoader.RegisterTypeInIl2Cpp(true)]
+        //[Preserve]
+        public class ValveIndexController : XRControllerWithRumble
 		{
 			// Token: 0x1700010B RID: 267
 			// (get) Token: 0x060003CC RID: 972 RVA: 0x0000D007 File Offset: 0x0000B207
 			// (set) Token: 0x060003CD RID: 973 RVA: 0x0000D00F File Offset: 0x0000B20F
-			//[InputControl(alias = "systemButton", usage = "MenuButton")]
+			[InputControl(alias = "systemButton", usage = "MenuButton")]
 			//[Preserve]
 			public ButtonControl system { get; private set; }
 
 			// Token: 0x1700010C RID: 268
 			// (get) Token: 0x060003CE RID: 974 RVA: 0x0000D018 File Offset: 0x0000B218
 			// (set) Token: 0x060003CF RID: 975 RVA: 0x0000D020 File Offset: 0x0000B220
-			//[InputControl(usage = "MenuTouch")]
+			[InputControl(usage = "MenuTouch")]
 			//[Preserve]
 			public ButtonControl systemTouched { get; private set; }
 
@@ -543,27 +545,27 @@ namespace UnityEngine.XR.OpenXR.Features.Interactions
 			// (get) Token: 0x060003D0 RID: 976 RVA: 0x0000D029 File Offset: 0x0000B229
 			// (set) Token: 0x060003D1 RID: 977 RVA: 0x0000D031 File Offset: 0x0000B231
 			//[Preserve]
-			//[InputControl(usage = "PrimaryButton")]
+			[InputControl(usage = "PrimaryButton")]
 			public ButtonControl primaryButton { get; private set; }
 
 			// Token: 0x1700010E RID: 270
 			// (get) Token: 0x060003D2 RID: 978 RVA: 0x0000D03A File Offset: 0x0000B23A
 			// (set) Token: 0x060003D3 RID: 979 RVA: 0x0000D042 File Offset: 0x0000B242
-			//[InputControl(usage = "PrimaryTouch")]
+			[InputControl(usage = "PrimaryTouch")]
 			//[Preserve]
 			public ButtonControl primaryTouched { get; private set; }
 
 			// Token: 0x1700010F RID: 271
 			// (get) Token: 0x060003D4 RID: 980 RVA: 0x0000D04B File Offset: 0x0000B24B
 			// (set) Token: 0x060003D5 RID: 981 RVA: 0x0000D053 File Offset: 0x0000B253
-			//[InputControl(usage = "SecondaryButton")]
+			[InputControl(usage = "SecondaryButton")]
 			//[Preserve]
 			public ButtonControl secondaryButton { get; private set; }
 
 			// Token: 0x17000110 RID: 272
 			// (get) Token: 0x060003D6 RID: 982 RVA: 0x0000D05C File Offset: 0x0000B25C
 			// (set) Token: 0x060003D7 RID: 983 RVA: 0x0000D064 File Offset: 0x0000B264
-			//[InputControl(usage = "SecondaryTouch")]
+			[InputControl(usage = "SecondaryTouch")]
 			//[Preserve]
 			public ButtonControl secondaryTouched { get; private set; }
 
@@ -571,74 +573,74 @@ namespace UnityEngine.XR.OpenXR.Features.Interactions
 			// (get) Token: 0x060003D8 RID: 984 RVA: 0x0000D06D File Offset: 0x0000B26D
 			// (set) Token: 0x060003D9 RID: 985 RVA: 0x0000D075 File Offset: 0x0000B275
 			//[Preserve]
-			//[InputControl(aliases = new string[]
-			//{
-			//	"GripAxis",
-			//	"squeeze"
-			//}, usage = "Grip")]
+			[InputControl(aliases = new string[]
+			{
+				"GripAxis",
+				"squeeze"
+			}, usage = "Grip")]
 			public AxisControl grip { get; private set; }
 
 			// Token: 0x17000112 RID: 274
 			// (get) Token: 0x060003DA RID: 986 RVA: 0x0000D07E File Offset: 0x0000B27E
 			// (set) Token: 0x060003DB RID: 987 RVA: 0x0000D086 File Offset: 0x0000B286
 			//[Preserve]
-			//[InputControl(aliases = new string[]
-			//{
-			//	"GripButton",
-			//	"squeezeClicked"
-			//}, usage = "GripButton")]
+			[InputControl(aliases = new string[]
+			{
+				"GripButton",
+				"squeezeClicked"
+			}, usage = "GripButton")]
 			public ButtonControl gripPressed { get; private set; }
 
 			// Token: 0x17000113 RID: 275
 			// (get) Token: 0x060003DC RID: 988 RVA: 0x0000D08F File Offset: 0x0000B28F
 			// (set) Token: 0x060003DD RID: 989 RVA: 0x0000D097 File Offset: 0x0000B297
 			//[Preserve]
-			//[InputControl(alias = "squeezeForce", usage = "GripForce")]
+			[InputControl(alias = "squeezeForce", usage = "GripForce")]
 			public AxisControl gripForce { get; private set; }
 
 			// Token: 0x17000114 RID: 276
 			// (get) Token: 0x060003DE RID: 990 RVA: 0x0000D0A0 File Offset: 0x0000B2A0
 			// (set) Token: 0x060003DF RID: 991 RVA: 0x0000D0A8 File Offset: 0x0000B2A8
-			//[InputControl(usage = "Trigger")]
+			[InputControl(usage = "Trigger")]
 			//[Preserve]
 			public AxisControl trigger { get; private set; }
 
 			// Token: 0x17000115 RID: 277
 			// (get) Token: 0x060003E0 RID: 992 RVA: 0x0000D0B1 File Offset: 0x0000B2B1
 			// (set) Token: 0x060003E1 RID: 993 RVA: 0x0000D0B9 File Offset: 0x0000B2B9
-			//[InputControl(usage = "TriggerButton")]
+			[InputControl(usage = "TriggerButton")]
 			//[Preserve]
 			public ButtonControl triggerPressed { get; private set; }
 
 			// Token: 0x17000116 RID: 278
 			// (get) Token: 0x060003E2 RID: 994 RVA: 0x0000D0C2 File Offset: 0x0000B2C2
 			// (set) Token: 0x060003E3 RID: 995 RVA: 0x0000D0CA File Offset: 0x0000B2CA
-			//[InputControl(usage = "TriggerTouch")]
+			[InputControl(usage = "TriggerTouch")]
 			//[Preserve]
 			public ButtonControl triggerTouched { get; private set; }
 
 			// Token: 0x17000117 RID: 279
 			// (get) Token: 0x060003E4 RID: 996 RVA: 0x0000D0D3 File Offset: 0x0000B2D3
 			// (set) Token: 0x060003E5 RID: 997 RVA: 0x0000D0DB File Offset: 0x0000B2DB
-			//[InputControl(aliases = new string[]
-			//{
-			//	"joystick",
-			//	"Primary2DAxis"
-			//}, usage = "Primary2DAxis")]
+			[InputControl(aliases = new string[]
+			{
+				"joystick",
+				"Primary2DAxis"
+			}, usage = "Primary2DAxis")]
 			//[Preserve]
 			public StickControl thumbstick { get; private set; }
 
 			// Token: 0x17000118 RID: 280
 			// (get) Token: 0x060003E6 RID: 998 RVA: 0x0000D0E4 File Offset: 0x0000B2E4
 			// (set) Token: 0x060003E7 RID: 999 RVA: 0x0000D0EC File Offset: 0x0000B2EC
-			//[InputControl(alias = "joystickClicked", usage = "Primary2DAxisClick")]
+			[InputControl(alias = "joystickClicked", usage = "Primary2DAxisClick")]
 			//[Preserve]
 			public ButtonControl thumbstickClicked { get; private set; }
 
 			// Token: 0x17000119 RID: 281
 			// (get) Token: 0x060003E8 RID: 1000 RVA: 0x0000D0F5 File Offset: 0x0000B2F5
 			// (set) Token: 0x060003E9 RID: 1001 RVA: 0x0000D0FD File Offset: 0x0000B2FD
-			//[InputControl(alias = "joystickTouched", usage = "Primary2DAxisTouch")]
+			[InputControl(alias = "joystickTouched", usage = "Primary2DAxisTouch")]
 			//[Preserve]
 			public ButtonControl thumbstickTouched { get; private set; }
 
@@ -646,17 +648,17 @@ namespace UnityEngine.XR.OpenXR.Features.Interactions
 			// (get) Token: 0x060003EA RID: 1002 RVA: 0x0000D106 File Offset: 0x0000B306
 			// (set) Token: 0x060003EB RID: 1003 RVA: 0x0000D10E File Offset: 0x0000B30E
 			//[Preserve]
-			//[InputControl(aliases = new string[]
-			//{
-			//	"touchpad",
-			//	"Secondary2DAxis"
-			//}, usage = "Secondary2DAxis")]
+			[InputControl(aliases = new string[]
+			{
+				"touchpad",
+				"Secondary2DAxis"
+			}, usage = "Secondary2DAxis")]
 			public StickControl trackpad { get; private set; }
 
 			// Token: 0x1700011B RID: 283
 			// (get) Token: 0x060003EC RID: 1004 RVA: 0x0000D117 File Offset: 0x0000B317
 			// (set) Token: 0x060003ED RID: 1005 RVA: 0x0000D11F File Offset: 0x0000B31F
-			//[InputControl(alias = "touchpadTouched", usage = "Secondary2DAxisTouch")]
+			[InputControl(alias = "touchpadTouched", usage = "Secondary2DAxisTouch")]
 			//[Preserve]
 			public ButtonControl trackpadTouched { get; private set; }
 
@@ -664,31 +666,31 @@ namespace UnityEngine.XR.OpenXR.Features.Interactions
 			// (get) Token: 0x060003EE RID: 1006 RVA: 0x0000D128 File Offset: 0x0000B328
 			// (set) Token: 0x060003EF RID: 1007 RVA: 0x0000D130 File Offset: 0x0000B330
 			//[Preserve]
-			//[InputControl(alias = "touchpadForce", usage = "Secondary2DAxisForce")]
+			[InputControl(alias = "touchpadForce", usage = "Secondary2DAxisForce")]
 			public AxisControl trackpadForce { get; private set; }
 
 			// Token: 0x1700011D RID: 285
 			// (get) Token: 0x060003F0 RID: 1008 RVA: 0x0000D139 File Offset: 0x0000B339
 			// (set) Token: 0x060003F1 RID: 1009 RVA: 0x0000D141 File Offset: 0x0000B341
-			//[InputControl(offset = 0U, aliases = new string[]
-			//{
-			//	"device",
-			//	"gripPose"
-			//}, usage = "Device")]
+			[InputControl(offset = 0U, aliases = new string[]
+			{
+				"device",
+				"gripPose"
+			}, usage = "Device")]
 			//[Preserve]
 			public UnityEngine.InputSystem.XR.PoseControl devicePose { get; private set; }
 
 			// Token: 0x1700011E RID: 286
 			// (get) Token: 0x060003F2 RID: 1010 RVA: 0x0000D14A File Offset: 0x0000B34A
 			// (set) Token: 0x060003F3 RID: 1011 RVA: 0x0000D152 File Offset: 0x0000B352
-			//[InputControl(offset = 0U, alias = "aimPose", usage = "Pointer")]
+			[InputControl(offset = 0U, alias = "aimPose", usage = "Pointer")]
 			//[Preserve]
 			public UnityEngine.InputSystem.XR.PoseControl pointer { get; private set; }
 
 			// Token: 0x1700011F RID: 287
 			// (get) Token: 0x060003F4 RID: 1012 RVA: 0x0000D15B File Offset: 0x0000B35B
 			// (set) Token: 0x060003F5 RID: 1013 RVA: 0x0000D163 File Offset: 0x0000B363
-			//[InputControl(offset = 53U)]
+			[InputControl(offset = 53U)]
 			//[Preserve]
 			public new ButtonControl isTracked { get; private set; }
 
@@ -696,34 +698,34 @@ namespace UnityEngine.XR.OpenXR.Features.Interactions
 			// (get) Token: 0x060003F6 RID: 1014 RVA: 0x0000D16C File Offset: 0x0000B36C
 			// (set) Token: 0x060003F7 RID: 1015 RVA: 0x0000D174 File Offset: 0x0000B374
 			//[Preserve]
-			//[InputControl(offset = 56U)]
+			[InputControl(offset = 56U)]
 			public new IntegerControl trackingState { get; private set; }
 
 			// Token: 0x17000121 RID: 289
 			// (get) Token: 0x060003F8 RID: 1016 RVA: 0x0000D17D File Offset: 0x0000B37D
 			// (set) Token: 0x060003F9 RID: 1017 RVA: 0x0000D185 File Offset: 0x0000B385
 			//[Preserve]
-			//[InputControl(offset = 60U, alias = "gripPosition")]
+			[InputControl(offset = 60U, alias = "gripPosition")]
 			public new Vector3Control devicePosition { get; private set; }
 
 			// Token: 0x17000122 RID: 290
 			// (get) Token: 0x060003FA RID: 1018 RVA: 0x0000D18E File Offset: 0x0000B38E
 			// (set) Token: 0x060003FB RID: 1019 RVA: 0x0000D196 File Offset: 0x0000B396
-			//[InputControl(offset = 72U, alias = "gripOrientation")]
+			[InputControl(offset = 72U, alias = "gripOrientation")]
 			//[Preserve]
 			public new QuaternionControl deviceRotation { get; private set; }
 
 			// Token: 0x17000123 RID: 291
 			// (get) Token: 0x060003FC RID: 1020 RVA: 0x0000D19F File Offset: 0x0000B39F
 			// (set) Token: 0x060003FD RID: 1021 RVA: 0x0000D1A7 File Offset: 0x0000B3A7
-			//[InputControl(offset = 120U)]
+			[InputControl(offset = 120U)]
 			//[Preserve]
 			public Vector3Control pointerPosition { get; private set; }
 
 			// Token: 0x17000124 RID: 292
 			// (get) Token: 0x060003FE RID: 1022 RVA: 0x0000D1B0 File Offset: 0x0000B3B0
 			// (set) Token: 0x060003FF RID: 1023 RVA: 0x0000D1B8 File Offset: 0x0000B3B8
-			//[InputControl(offset = 132U, alias = "pointerOrientation")]
+			[InputControl(offset = 132U, alias = "pointerOrientation")]
 			//[Preserve]
 			public QuaternionControl pointerRotation { get; private set; }
 
@@ -731,7 +733,7 @@ namespace UnityEngine.XR.OpenXR.Features.Interactions
 			// (get) Token: 0x06000400 RID: 1024 RVA: 0x0000D1C1 File Offset: 0x0000B3C1
 			// (set) Token: 0x06000401 RID: 1025 RVA: 0x0000D1C9 File Offset: 0x0000B3C9
 			//[Preserve]
-			//[InputControl(usage = "Haptic")]
+			[InputControl(usage = "Haptic")]
 			public HapticControl haptic { get; private set; }
 
 			// Token: 0x06000402 RID: 1026 RVA: 0x0000D1D4 File Offset: 0x0000B3D4

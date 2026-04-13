@@ -4,12 +4,11 @@ using Il2CppInterop.Runtime.Injection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Layouts;
 using UnityEngine.InputSystem.XR;
-using UnityEngine.Scripting;
-using UnityEngine.XR.OpenXR.Features.Extensions.PerformanceSettings;
 using UnityEngine.XR.OpenXR.Input;
+using InputControlAttribute = UnityEngine.XR.OpenXR.Il2CppShenanigans.InputControlAttribute;
+using InputControlLayoutAttribute = UnityEngine.XR.OpenXR.Il2CppShenanigans.InputControlLayoutAttribute;
 
 namespace UnityEngine.XR.OpenXR.Features.Interactions
 {
@@ -236,43 +235,44 @@ namespace UnityEngine.XR.OpenXR.Features.Interactions
         public const string extensionString = "XR_EXT_hand_interaction";
 
         // Token: 0x02000056 RID: 86
-        //[InputControlLayout(displayName = "Hand Interaction Poses (OpenXR)", commonUsages = new string[]
-        //{
-        //	"LeftHand",
-        //	"RightHand"
-        //}, isGenericTypeOfDevice = true)]
+        [InputControlLayout(displayName = "Hand Interaction Poses (OpenXR)", commonUsages = new string[]
+        {
+            "LeftHand",
+            "RightHand"
+        }, isGenericTypeOfDevice = true)]
+        [MelonLoader.RegisterTypeInIl2Cpp(true)]
         ////[Preserve]
         public class HandInteractionPoses : OpenXRDevice
         {
             // Token: 0x17000048 RID: 72
             // (get) Token: 0x060001E8 RID: 488 RVA: 0x000066D4 File Offset: 0x000048D4
             // (set) Token: 0x060001E9 RID: 489 RVA: 0x000066DC File Offset: 0x000048DC
-            //[InputControl(offset = 0U, aliases = new string[]
-            //{
-            //	"device",
-            //	"gripPose"
-            //}, usage = "Device")]
+            [InputControl(offset = 0U, aliases = new string[]
+            {
+                "device",
+                "gripPose"
+            }, usage = "Device")]
             //[Preserve]
             public UnityEngine.InputSystem.XR.PoseControl devicePose { get; private set; }
 
             // Token: 0x17000049 RID: 73
             // (get) Token: 0x060001EA RID: 490 RVA: 0x000066E5 File Offset: 0x000048E5
             // (set) Token: 0x060001EB RID: 491 RVA: 0x000066ED File Offset: 0x000048ED
-            //[InputControl(offset = 0U, alias = "aimPose", usage = "Pointer")]
+            [InputControl(offset = 0U, alias = "aimPose", usage = "Pointer")]
             //[Preserve]
             public UnityEngine.InputSystem.XR.PoseControl pointer { get; private set; }
 
             // Token: 0x1700004A RID: 74
             // (get) Token: 0x060001EC RID: 492 RVA: 0x000066F6 File Offset: 0x000048F6
             // (set) Token: 0x060001ED RID: 493 RVA: 0x000066FE File Offset: 0x000048FE
-            //[InputControl(offset = 0U)]
+            [InputControl(offset = 0U)]
             //[Preserve]
             public UnityEngine.InputSystem.XR.PoseControl pokePose { get; private set; }
 
             // Token: 0x1700004B RID: 75
             // (get) Token: 0x060001EE RID: 494 RVA: 0x00006707 File Offset: 0x00004907
             // (set) Token: 0x060001EF RID: 495 RVA: 0x0000670F File Offset: 0x0000490F
-            //[InputControl(offset = 0U)]
+            [InputControl(offset = 0U)]
             //[Preserve]
             public UnityEngine.InputSystem.XR.PoseControl pinchPose { get; private set; }
 

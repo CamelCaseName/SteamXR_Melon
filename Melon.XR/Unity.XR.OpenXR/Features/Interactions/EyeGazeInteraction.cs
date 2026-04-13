@@ -1,15 +1,12 @@
 ﻿using Il2CppInterop.Runtime;
 using Il2CppInterop.Runtime.Attributes;
 using Il2CppInterop.Runtime.Injection;
-using Il2CppInterop.Runtime.Runtime;
-using System;
 using System.Collections.Generic;
-using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Layouts;
 using UnityEngine.InputSystem.XR;
-using UnityEngine.Scripting;
-using UnityEngine.XR.OpenXR.Features.Extensions.PerformanceSettings;
 using UnityEngine.XR.OpenXR.Input;
+using InputControlAttribute = UnityEngine.XR.OpenXR.Il2CppShenanigans.InputControlAttribute;
+using InputControlLayoutAttribute = UnityEngine.XR.OpenXR.Il2CppShenanigans.InputControlLayoutAttribute;
 
 namespace UnityEngine.XR.OpenXR.Features.Interactions
 {
@@ -125,18 +122,19 @@ namespace UnityEngine.XR.OpenXR.Features.Interactions
 
         // Token: 0x02000053 RID: 83
         //[Preserve]
-        //[InputControlLayout(displayName = "Eye Gaze (OpenXR)", isGenericTypeOfDevice = true)]
+        [InputControlLayout(displayName = "Eye Gaze (OpenXR)", isGenericTypeOfDevice = true)]
+        [MelonLoader.RegisterTypeInIl2Cpp(true)]
         public class EyeGazeDevice : OpenXRDevice
         {
             // Token: 0x17000046 RID: 70
             // (get) Token: 0x060001DA RID: 474 RVA: 0x000061DA File Offset: 0x000043DA
             // (set) Token: 0x060001DB RID: 475 RVA: 0x000061E2 File Offset: 0x000043E2
             //[Preserve]
-            //[InputControl(offset = 0U, usages = new string[]
-            //{
-            //	"Device",
-            //	"gaze"
-            //})]
+            [InputControl(offset = 0U, usages = new string[]
+            {
+                "Device",
+                "gaze"
+            })]
             public UnityEngine.InputSystem.XR.PoseControl pose { get; private set; }
 
             // Token: 0x060001DC RID: 476 RVA: 0x000061EB File Offset: 0x000043EB

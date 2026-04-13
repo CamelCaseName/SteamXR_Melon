@@ -1,14 +1,21 @@
-﻿using Il2CppSystem.Collections.Generic;
+﻿using Il2CppInterop.Runtime;
+using Il2CppSystem.Collections.Generic;
 using MelonLoader;
 using SteamVR_Melon.Standalone;
 using System;
+using System.Linq;
+using System.Reflection;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Layouts;
 using UnityEngine.Rendering;
 using UnityEngine.SubsystemsImplementation;
 using UnityEngine.XR;
 using UnityEngine.XR.Management;
 using UnityEngine.XR.OpenXR;
-using UnityEngine.XR.WindowsMR.Input;
+using UnityEngine.XR.OpenXR.Features.Interactions;
+using InputControlAttribute = UnityEngine.XR.OpenXR.Il2CppShenanigans.InputControlAttribute;
+using InputControlLayoutAttribute = UnityEngine.XR.OpenXR.Il2CppShenanigans.InputControlLayoutAttribute;
 
 namespace SteamXR_Melon
 {
@@ -31,20 +38,14 @@ namespace SteamXR_Melon
 
             MelonLogger.Msg("Creating XRGeneralSettings");
             var obj = ScriptableObject.CreateInstance<XRGeneralSettings>();
-            list.Add(obj);
             UnityEngine.Object.DontDestroyOnLoad(obj);
             MelonLogger.Msg("Creating XRManagerSettings");
 
-            list.Add(list);
-
             XRGeneralSettings.Instance.Manager = ScriptableObject.CreateInstance<XRManagerSettings>();
-            list.Add(XRGeneralSettings.Instance);
             UnityEngine.Object.DontDestroyOnLoad(XRGeneralSettings.Instance);
-            list.Add(XRGeneralSettings.Instance.Manager);
             UnityEngine.Object.DontDestroyOnLoad(XRGeneralSettings.Instance.Manager);
             var loader = ScriptableObject.CreateInstance<OpenXRLoader>();
             UnityEngine.Object.DontDestroyOnLoad(loader);
-            list.Add(loader);
             if (XRGeneralSettings.Instance.Manager.TryAddLoader(loader))
             {
                 MelonLogger.Msg("Added OpenXRLoader");
@@ -56,7 +57,6 @@ namespace SteamXR_Melon
 
             //register and initialize the iunitysubsystem lifecycle for the plugin
             //display first then input
-
             //we need to trigger a rescan via accessing the subsystems first
             List<XRDisplaySubsystem> displays = new();
             SubsystemManager.GetSubsystems(displays);
@@ -68,26 +68,20 @@ namespace SteamXR_Melon
             {
                 MelonLogger.Msg("display id: " + d.id);
 
-                //MelonLogger.Msg("casting the descriptor");
-
                 if (d.id.Contains("Display") && xrDisplay is null)
                 {
                     var disp = d.Cast<XRDisplaySubsystemDescriptor>();
-                    //MelonLogger.Msg(disp.disablesLegacyVr);
                     MelonLogger.Msg("creating display instance");
                     var inst = disp.Create();
 
-                    //MelonLogger.Msg("casting instance");
                     xrDisplay = inst.Cast<XRDisplaySubsystem>();
                 }
                 else if (d.id.Contains("Input") && xrInput is null)
                 {
                     var inp = d.Cast<XRInputSubsystemDescriptor>();
-                    //MelonLogger.Msg(inp.disablesLegacyInput);
                     MelonLogger.Msg("creating input instance");
                     var inst = inp.Create();
 
-                    //MelonLogger.Msg("casting instance");
                     xrInput = inst.Cast<XRInputSubsystem>();
                 }
             }
@@ -98,6 +92,42 @@ namespace SteamXR_Melon
             foreach (var supported in XRGraphics.supportedDevices)
             {
                 MelonLogger.Msg("supported: " + supported);
+            }
+            list.Add(obj);
+            list.Add(list);
+            list.Add(XRGeneralSettings.Instance);
+            list.Add(XRGeneralSettings.Instance.Manager);
+            list.Add(loader);
+
+            RegisterAllInputDevices();
+        }
+
+        private static void RegisterAllInputDevices()
+        {
+            Assembly assembly = typeof(DPadInteraction).Assembly;
+            var types = from type in assembly.GetTypes()
+                        where Attribute.IsDefined(type, typeof(InputControlLayoutAttribute))
+                        select type;
+            foreach (var type in types)
+            {
+                MelonLogger.Msg($"type found: {type.Name} populating....");
+                var fields = from field in type.GetProperties(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.DeclaredOnly | BindingFlags.Instance)
+                             where Attribute.IsDefined(field, typeof(InputControlAttribute))
+                             select field;
+                MelonLogger.Msg("field count found: " + fields.Count());
+                InputControlLayout.Builder builder = new()
+                {
+                    type = Il2CppType.From(type)
+                };
+
+                MelonLogger.Msg("building " + type.Name);
+                var layout = builder.Build();
+                MelonLogger.Msg("built " + type.Name);
+                if (fields.Any())
+                {
+                    InputSystem.s_Manager.RegisterControlLayout(type.Name, layout.type);
+                    MelonLogger.Msg("registered " + type.Name);
+                }
             }
         }
     }

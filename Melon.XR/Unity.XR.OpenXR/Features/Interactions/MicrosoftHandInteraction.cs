@@ -1,13 +1,11 @@
 ﻿using Il2CppInterop.Runtime;
 using Il2CppInterop.Runtime.Injection;
-using System;
 using System.Collections.Generic;
-using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
 using UnityEngine.InputSystem.Layouts;
 using UnityEngine.InputSystem.XR;
-using UnityEngine.Scripting;
-using UnityEngine.XR.OpenXR.Features.Extensions.PerformanceSettings;
+using InputControlAttribute = UnityEngine.XR.OpenXR.Il2CppShenanigans.InputControlAttribute;
+using InputControlLayoutAttribute = UnityEngine.XR.OpenXR.Il2CppShenanigans.InputControlLayoutAttribute;
 
 namespace UnityEngine.XR.OpenXR.Features.Interactions
 {
@@ -203,31 +201,32 @@ namespace UnityEngine.XR.OpenXR.Features.Interactions
 
 		// Token: 0x02000066 RID: 102
 		//[Preserve]
-		//[InputControlLayout(displayName = "Hololens Hand (OpenXR)", commonUsages = new string[]
-		//{
-		//	"LeftHand",
-		//	"RightHand"
-		//})]
-		public class HoloLensHand : XRController
+		[InputControlLayout(displayName = "Hololens Hand (OpenXR)", commonUsages = new string[]
+		{
+			"LeftHand",
+			"RightHand"
+		})]
+        [MelonLoader.RegisterTypeInIl2Cpp(true)]
+        public class HoloLensHand : XRController
 		{
 			// Token: 0x170000CD RID: 205
 			// (get) Token: 0x0600032E RID: 814 RVA: 0x0000ABB9 File Offset: 0x00008DB9
 			// (set) Token: 0x0600032F RID: 815 RVA: 0x0000ABC1 File Offset: 0x00008DC1
-			//[InputControl(usage = "PrimaryAxis")]
+			[InputControl(usage = "PrimaryAxis")]
 			//[Preserve]
 			public AxisControl select { get; private set; }
 
 			// Token: 0x170000CE RID: 206
 			// (get) Token: 0x06000330 RID: 816 RVA: 0x0000ABCA File Offset: 0x00008DCA
 			// (set) Token: 0x06000331 RID: 817 RVA: 0x0000ABD2 File Offset: 0x00008DD2
-			//[InputControl(aliases = new string[]
-			//{
-			//	"Primary",
-			//	"selectbutton"
-			//}, usages = new string[]
-			//{
-			//	"PrimaryButton"
-			//})]
+			[InputControl(aliases = new string[]
+			{
+				"Primary",
+				"selectbutton"
+			}, usages = new string[]
+			{
+				"PrimaryButton"
+			})]
 			//[Preserve]
 			public ButtonControl selectPressed { get; private set; }
 
@@ -235,20 +234,20 @@ namespace UnityEngine.XR.OpenXR.Features.Interactions
 			// (get) Token: 0x06000332 RID: 818 RVA: 0x0000ABDB File Offset: 0x00008DDB
 			// (set) Token: 0x06000333 RID: 819 RVA: 0x0000ABE3 File Offset: 0x00008DE3
 			//[Preserve]
-			//[InputControl(alias = "Secondary", usage = "Grip")]
+			[InputControl(alias = "Secondary", usage = "Grip")]
 			public AxisControl squeeze { get; private set; }
 
 			// Token: 0x170000D0 RID: 208
 			// (get) Token: 0x06000334 RID: 820 RVA: 0x0000ABEC File Offset: 0x00008DEC
 			// (set) Token: 0x06000335 RID: 821 RVA: 0x0000ABF4 File Offset: 0x00008DF4
-			//[InputControl(aliases = new string[]
-			//{
-			//	"GripButton",
-			//	"squeezeClicked"
-			//}, usages = new string[]
-			//{
-			//	"GripButton"
-			//})]
+			[InputControl(aliases = new string[]
+			{
+				"GripButton",
+				"squeezeClicked"
+			}, usages = new string[]
+			{
+				"GripButton"
+			})]
 			//[Preserve]
 			public ButtonControl squeezePressed { get; private set; }
 
@@ -256,42 +255,42 @@ namespace UnityEngine.XR.OpenXR.Features.Interactions
 			// Token: 0x170000D1 RID: 209
 			// (get) Token: 0x06000336 RID: 822 RVA: 0x0000ABFD File Offset: 0x00008DFD
 			// (set) Token: 0x06000337 RID: 823 RVA: 0x0000AC05 File Offset: 0x00008E05
-			//[InputControl(offset = 0U, alias = "device", usage = "Device")]
+			[InputControl(offset = 0U, alias = "device", usage = "Device")]
 			//[Preserve]
 			public PoseControl devicePose { get; private set; }
 
 			// Token: 0x170000D2 RID: 210
 			// (get) Token: 0x06000338 RID: 824 RVA: 0x0000AC0E File Offset: 0x00008E0E
 			// (set) Token: 0x06000339 RID: 825 RVA: 0x0000AC16 File Offset: 0x00008E16
-			//[InputControl(offset = 0U, usage = "Pointer")]
+			[InputControl(offset = 0U, usage = "Pointer")]
 			//[Preserve]
 			public PoseControl pointer { get; private set; }
 
 			// Token: 0x170000D3 RID: 211
 			// (get) Token: 0x0600033A RID: 826 RVA: 0x0000AC1F File Offset: 0x00008E1F
 			// (set) Token: 0x0600033B RID: 827 RVA: 0x0000AC27 File Offset: 0x00008E27
-			//[InputControl(offset = 132U)]
+			[InputControl(offset = 132U)]
 			//[Preserve]
 			public new ButtonControl isTracked { get; private set; }
 
 			// Token: 0x170000D4 RID: 212
 			// (get) Token: 0x0600033C RID: 828 RVA: 0x0000AC30 File Offset: 0x00008E30
 			// (set) Token: 0x0600033D RID: 829 RVA: 0x0000AC38 File Offset: 0x00008E38
-			//[InputControl(offset = 136U)]
+			[InputControl(offset = 136U)]
 			//[Preserve]
 			public new IntegerControl trackingState { get; private set; }
 
 			// Token: 0x170000D5 RID: 213
 			// (get) Token: 0x0600033E RID: 830 RVA: 0x0000AC41 File Offset: 0x00008E41
 			// (set) Token: 0x0600033F RID: 831 RVA: 0x0000AC49 File Offset: 0x00008E49
-			//[InputControl(offset = 20U, alias = "gripPosition")]
+			[InputControl(offset = 20U, alias = "gripPosition")]
 			//[Preserve]
 			public new Vector3Control devicePosition { get; private set; }
 
 			// Token: 0x170000D6 RID: 214
 			// (get) Token: 0x06000340 RID: 832 RVA: 0x0000AC52 File Offset: 0x00008E52
 			// (set) Token: 0x06000341 RID: 833 RVA: 0x0000AC5A File Offset: 0x00008E5A
-			//[InputControl(offset = 32U, alias = "gripOrientation")]
+			[InputControl(offset = 32U, alias = "gripOrientation")]
 			//[Preserve]
 			public new QuaternionControl deviceRotation { get; private set; }
 
@@ -299,13 +298,13 @@ namespace UnityEngine.XR.OpenXR.Features.Interactions
 			// (get) Token: 0x06000342 RID: 834 RVA: 0x0000AC63 File Offset: 0x00008E63
 			// (set) Token: 0x06000343 RID: 835 RVA: 0x0000AC6B File Offset: 0x00008E6B
 			//[Preserve]
-			//[InputControl(offset = 80U)]
+			[InputControl(offset = 80U)]
 			public Vector3Control pointerPosition { get; private set; }
 
 			// Token: 0x170000D8 RID: 216
 			// (get) Token: 0x06000344 RID: 836 RVA: 0x0000AC74 File Offset: 0x00008E74
 			// (set) Token: 0x06000345 RID: 837 RVA: 0x0000AC7C File Offset: 0x00008E7C
-			//[InputControl(offset = 92U, alias = "pointerOrientation")]
+			[InputControl(offset = 92U, alias = "pointerOrientation")]
 			//[Preserve]
 			public QuaternionControl pointerRotation { get; private set; }
 

@@ -89,6 +89,7 @@ namespace UnityEngine.XR.Management
 
 		// Token: 0x06000012 RID: 18 RVA: 0x00002180 File Offset: 0x00000380
 		//[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterAssembliesLoaded)]
+		//we do this manually, dont need the runtime init
 		public static void AttemptInitializeXRSDKOnLoad()
 		{
 			XRGeneralSettings instance = XRGeneralSettings.Instance;
@@ -99,9 +100,10 @@ namespace UnityEngine.XR.Management
 			instance.InitXRSDK();
 		}
 
-		// Token: 0x06000013 RID: 19 RVA: 0x000021AC File Offset: 0x000003AC
-		//[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSplashScreen)]
-		internal static void AttemptStartXRSDKOnBeforeSplashScreen()
+        // Token: 0x06000013 RID: 19 RVA: 0x000021AC File Offset: 0x000003AC
+        //[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSplashScreen)]
+        //we do this manually, dont need the runtime init
+        internal static void AttemptStartXRSDKOnBeforeSplashScreen()
 		{
 			XRGeneralSettings instance = XRGeneralSettings.Instance;
 			if (instance == null || !instance.InitManagerOnStart)

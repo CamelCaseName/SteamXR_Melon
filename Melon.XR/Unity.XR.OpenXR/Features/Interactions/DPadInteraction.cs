@@ -4,12 +4,11 @@ using Il2CppInterop.Runtime.Injection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
 using UnityEngine.InputSystem.Layouts;
 using UnityEngine.InputSystem.XR;
-using UnityEngine.Scripting;
-using UnityEngine.XR.OpenXR.Features.Extensions.PerformanceSettings;
+using InputControlAttribute = UnityEngine.XR.OpenXR.Il2CppShenanigans.InputControlAttribute;
+using InputControlLayoutAttribute = UnityEngine.XR.OpenXR.Il2CppShenanigans.InputControlLayoutAttribute;
 
 namespace UnityEngine.XR.OpenXR.Features.Interactions
 {
@@ -347,24 +346,25 @@ namespace UnityEngine.XR.OpenXR.Features.Interactions
 
         // Token: 0x02000050 RID: 80
         //[Preserve]
-        //[InputControlLayout(displayName = "D-Pad Binding (OpenXR)", commonUsages = new string[]
-        //{
-        //	"LeftHand",
-        //	"RightHand"
-        //})]
+        [InputControlLayout(displayName = "D-Pad Binding (OpenXR)", commonUsages = new string[]
+        {
+            "LeftHand",
+            "RightHand"
+        })]
+        [MelonLoader.RegisterTypeInIl2Cpp(true)]
         public class DPad : XRController
         {
             // Token: 0x1700003D RID: 61
             // (get) Token: 0x060001B9 RID: 441 RVA: 0x00005E8B File Offset: 0x0000408B
             // (set) Token: 0x060001BA RID: 442 RVA: 0x00005E93 File Offset: 0x00004093
             //[Preserve]
-            //[InputControl]
+            [InputControl]
             public ButtonControl thumbstickDpadUp { get; private set; }
 
             // Token: 0x1700003E RID: 62
             // (get) Token: 0x060001BB RID: 443 RVA: 0x00005E9C File Offset: 0x0000409C
             // (set) Token: 0x060001BC RID: 444 RVA: 0x00005EA4 File Offset: 0x000040A4
-            //[InputControl]
+            [InputControl]
             //[Preserve]
             public ButtonControl thumbstickDpadDown { get; private set; }
 
@@ -372,13 +372,13 @@ namespace UnityEngine.XR.OpenXR.Features.Interactions
             // (get) Token: 0x060001BD RID: 445 RVA: 0x00005EAD File Offset: 0x000040AD
             // (set) Token: 0x060001BE RID: 446 RVA: 0x00005EB5 File Offset: 0x000040B5
             //[Preserve]
-            //[InputControl]
+            [InputControl]
             public ButtonControl thumbstickDpadLeft { get; private set; }
 
             // Token: 0x17000040 RID: 64
             // (get) Token: 0x060001BF RID: 447 RVA: 0x00005EBE File Offset: 0x000040BE
             // (set) Token: 0x060001C0 RID: 448 RVA: 0x00005EC6 File Offset: 0x000040C6
-            //[InputControl]
+            [InputControl]
             //[Preserve]
             public ButtonControl thumbstickDpadRight { get; private set; }
 
@@ -386,35 +386,35 @@ namespace UnityEngine.XR.OpenXR.Features.Interactions
             // (get) Token: 0x060001C1 RID: 449 RVA: 0x00005ECF File Offset: 0x000040CF
             // (set) Token: 0x060001C2 RID: 450 RVA: 0x00005ED7 File Offset: 0x000040D7
             //[Preserve]
-            //[InputControl]
+            [InputControl]
             public ButtonControl trackpadDpadUp { get; private set; }
 
             // Token: 0x17000042 RID: 66
             // (get) Token: 0x060001C3 RID: 451 RVA: 0x00005EE0 File Offset: 0x000040E0
             // (set) Token: 0x060001C4 RID: 452 RVA: 0x00005EE8 File Offset: 0x000040E8
             //[Preserve]
-            //[InputControl]
+            [InputControl]
             public ButtonControl trackpadDpadDown { get; private set; }
 
             // Token: 0x17000043 RID: 67
             // (get) Token: 0x060001C5 RID: 453 RVA: 0x00005EF1 File Offset: 0x000040F1
             // (set) Token: 0x060001C6 RID: 454 RVA: 0x00005EF9 File Offset: 0x000040F9
             //[Preserve]
-            //[InputControl]
+            [InputControl]
             public ButtonControl trackpadDpadLeft { get; private set; }
 
             // Token: 0x17000044 RID: 68
             // (get) Token: 0x060001C7 RID: 455 RVA: 0x00005F02 File Offset: 0x00004102
             // (set) Token: 0x060001C8 RID: 456 RVA: 0x00005F0A File Offset: 0x0000410A
             //[Preserve]
-            //[InputControl]
+            [InputControl]
             public ButtonControl trackpadDpadRight { get; private set; }
 
             // Token: 0x17000045 RID: 69
             // (get) Token: 0x060001C9 RID: 457 RVA: 0x00005F13 File Offset: 0x00004113
             // (set) Token: 0x060001CA RID: 458 RVA: 0x00005F1B File Offset: 0x0000411B
             //[Preserve]
-            //[InputControl]
+            [InputControl]
             public ButtonControl trackpadDpadCenter { get; private set; }
 
             // Token: 0x060001CB RID: 459 RVA: 0x00005F24 File Offset: 0x00004124

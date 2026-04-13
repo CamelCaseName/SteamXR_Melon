@@ -1,12 +1,13 @@
 ﻿
 using Il2CppInterop.Runtime.Injection;
 using System;
+using UnityEngine.XR.OpenXR.Il2CppShenanigans;
 
 namespace UnityEngine.XR.OpenXR.Input
 {
     // Token: 0x02000038 RID: 56
     //[Preserve]
-    //[InputControlLayout(displayName = "OpenXR Action Map")]
+    [InputControlLayout(displayName = "OpenXR Action Map")]
     [MelonLoader.RegisterTypeInIl2Cpp(true)]
     public class OpenXRDevice : InputSystem.InputDevice
     {

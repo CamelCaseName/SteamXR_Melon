@@ -7,6 +7,8 @@ using System.Linq;
 using UnityEngine.InputSystem.Controls;
 using UnityEngine.InputSystem.Layouts;
 using UnityEngine.InputSystem.XR;
+using InputControlAttribute = UnityEngine.XR.OpenXR.Il2CppShenanigans.InputControlAttribute;
+using InputControlLayoutAttribute = UnityEngine.XR.OpenXR.Il2CppShenanigans.InputControlLayoutAttribute;
 
 namespace UnityEngine.XR.OpenXR.Features.Interactions
 {
@@ -161,39 +163,40 @@ namespace UnityEngine.XR.OpenXR.Features.Interactions
 		public const string extensionString = "XR_EXT_palm_pose";
 
 		// Token: 0x0200006C RID: 108
-		//[InputControlLayout(displayName = "Palm Pose (OpenXR)", commonUsages = new string[]
-		//{
-		//	"LeftHand",
-		//	"RightHand"
-		//})]
-		//[Preserve]
-		public class PalmPose : XRController
+		[InputControlLayout(displayName = "Palm Pose (OpenXR)", commonUsages = new string[]
+		{
+			"LeftHand",
+			"RightHand"
+		})]
+        [MelonLoader.RegisterTypeInIl2Cpp(true)]
+        //[Preserve]
+        public class PalmPose : XRController
 		{
 			// Token: 0x17000104 RID: 260
 			// (get) Token: 0x060003B3 RID: 947 RVA: 0x0000C5B8 File Offset: 0x0000A7B8
 			// (set) Token: 0x060003B4 RID: 948 RVA: 0x0000C5C0 File Offset: 0x0000A7C0
 			//[Preserve]
-			//[InputControl(offset = 0U)]
+			[InputControl(offset = 0U)]
 			public PoseControl palmPose { get; private set; }
 
 			// Token: 0x17000105 RID: 261
 			// (get) Token: 0x060003B5 RID: 949 RVA: 0x0000C5C9 File Offset: 0x0000A7C9
 			// (set) Token: 0x060003B6 RID: 950 RVA: 0x0000C5D1 File Offset: 0x0000A7D1
-			//[InputControl(offset = 0U)]
+			[InputControl(offset = 0U)]
 			//[Preserve]
 			public new ButtonControl isTracked { get; private set; }
 
 			// Token: 0x17000106 RID: 262
 			// (get) Token: 0x060003B7 RID: 951 RVA: 0x0000C5DA File Offset: 0x0000A7DA
 			// (set) Token: 0x060003B8 RID: 952 RVA: 0x0000C5E2 File Offset: 0x0000A7E2
-			//[InputControl(offset = 4U)]
+			[InputControl(offset = 4U)]
 			//[Preserve]
 			public new IntegerControl trackingState { get; private set; }
 
 			// Token: 0x17000107 RID: 263
 			// (get) Token: 0x060003B9 RID: 953 RVA: 0x0000C5EB File Offset: 0x0000A7EB
 			// (set) Token: 0x060003BA RID: 954 RVA: 0x0000C5F3 File Offset: 0x0000A7F3
-			//[InputControl(offset = 8U, noisy = true, alias = "palmPosition")]
+			[InputControl(offset = 8U, noisy = true, alias = "palmPosition")]
 			//[Preserve]
 			public new Vector3Control devicePosition { get; private set; }
 
@@ -201,21 +204,21 @@ namespace UnityEngine.XR.OpenXR.Features.Interactions
 			// (get) Token: 0x060003BB RID: 955 RVA: 0x0000C5FC File Offset: 0x0000A7FC
 			// (set) Token: 0x060003BC RID: 956 RVA: 0x0000C604 File Offset: 0x0000A804
 			//[Preserve]
-			//[InputControl(offset = 20U, noisy = true, alias = "palmRotation")]
+			[InputControl(offset = 20U, noisy = true, alias = "palmRotation")]
 			public new QuaternionControl deviceRotation { get; private set; }
 
 			// Token: 0x17000109 RID: 265
 			// (get) Token: 0x060003BD RID: 957 RVA: 0x0000C60D File Offset: 0x0000A80D
 			// (set) Token: 0x060003BE RID: 958 RVA: 0x0000C615 File Offset: 0x0000A815
 			//[Preserve]
-			//[InputControl(offset = 8U, noisy = true)]
+			[InputControl(offset = 8U, noisy = true)]
 			public Vector3Control palmPosition { get; private set; }
 
 			// Token: 0x1700010A RID: 266
 			// (get) Token: 0x060003BF RID: 959 RVA: 0x0000C61E File Offset: 0x0000A81E
 			// (set) Token: 0x060003C0 RID: 960 RVA: 0x0000C626 File Offset: 0x0000A826
 			//[Preserve]
-			//[InputControl(offset = 20U, noisy = true)]
+			[InputControl(offset = 20U, noisy = true)]
 			public QuaternionControl palmRotation { get; private set; }
 
 			// Token: 0x060003C1 RID: 961 RVA: 0x0000C62F File Offset: 0x0000A82F
