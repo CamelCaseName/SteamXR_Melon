@@ -14,6 +14,7 @@ using UnityEngine.XR;
 using UnityEngine.XR.Management;
 using UnityEngine.XR.OpenXR;
 using UnityEngine.XR.OpenXR.Features.Interactions;
+using UnityEngine.XR.OpenXR.Il2CppShenanigans;
 using InputControlAttribute = UnityEngine.XR.OpenXR.Il2CppShenanigans.InputControlAttribute;
 using InputControlLayoutAttribute = UnityEngine.XR.OpenXR.Il2CppShenanigans.InputControlLayoutAttribute;
 
@@ -104,6 +105,8 @@ namespace SteamXR_Melon
 
         private static void RegisterAllInputDevices()
         {
+            HarmonyLib.Harmony.CreateAndPatchAll(typeof(InputControlLayoutPatches));
+
             Assembly assembly = typeof(DPadInteraction).Assembly;
             var types = from type in assembly.GetTypes()
                         where Attribute.IsDefined(type, typeof(InputControlLayoutAttribute))
@@ -114,18 +117,10 @@ namespace SteamXR_Melon
                 var fields = from field in type.GetProperties(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.DeclaredOnly | BindingFlags.Instance)
                              where Attribute.IsDefined(field, typeof(InputControlAttribute))
                              select field;
-                MelonLogger.Msg("field count found: " + fields.Count());
-                InputControlLayout.Builder builder = new()
-                {
-                    type = Il2CppType.From(type)
-                };
-
-                MelonLogger.Msg("building " + type.Name);
-                var layout = builder.Build();
-                MelonLogger.Msg("built " + type.Name);
+                //register layout. it is then however not yet loaded....
                 if (fields.Any())
                 {
-                    InputSystem.s_Manager.RegisterControlLayout(type.Name, layout.type);
+                    InputSystem.s_Manager.RegisterControlLayout(type.Name, Il2CppType.From(type));
                     MelonLogger.Msg("registered " + type.Name);
                 }
             }

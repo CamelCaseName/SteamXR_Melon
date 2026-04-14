@@ -11,6 +11,10 @@
 	  <Configurations>Debug;Release</Configurations>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="0Harmony">
+      <HintPath>G:\SteamLibrary\steamapps\common\House Party\MelonLoader\net6\0Harmony.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Il2CppInterop.Common">
       <HintPath>G:\SteamLibrary\steamapps\common\House Party\MelonLoader\net6\Il2CppInterop.Common.dll</HintPath>
       <Private>False</Private>

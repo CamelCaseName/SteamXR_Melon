@@ -338,7 +338,7 @@ namespace UnityEngine.XR.OpenXR.Il2CppShenanigans
         /// zeroes.
         /// </remarks>
         /// <seealso cref="InputControlLayout.ControlItem.defaultState"/>
-        public object defaultState { get; set; }
+        public Il2CppSystem.Object defaultState { get; set; }
 
         /// <summary>
         /// Lower limit for values of the control.
@@ -347,8 +347,8 @@ namespace UnityEngine.XR.OpenXR.Il2CppShenanigans
         /// <remarks>
         /// This is null by default in which case no lower bound is applied to the TODO
         /// </remarks>
-        public object minValue { get; set; }
-        public object maxValue { get; set; }
+        public Il2CppSystem.Object minValue { get; set; }
+        public Il2CppSystem.Object maxValue { get; set; }
     }
 #pragma warning restore IDE1006 // Naming Styles
 }
