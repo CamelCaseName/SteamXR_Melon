@@ -20,18 +20,19 @@ namespace UnityEngine.XR.OpenXR.Input
         // (set) Token: 0x060000F9 RID: 249 RVA: 0x00004191 File Offset: 0x00002391
         //[Preserve]
         [InputControl]
-        private ButtonControl userPresence { get; set; }
+        //private Il2CppReferenceField<ButtonControl> userPresence;
+        private ButtonControl userPresence;
 
-		// Token: 0x060000FA RID: 250 RVA: 0x0000419A File Offset: 0x0000239A
-		public override void FinishSetup()
-		{
-            if(i == 0)
+        // Token: 0x060000FA RID: 250 RVA: 0x0000419A File Offset: 0x0000239A
+        public override void FinishSetup()
+        {
+            if (i == 0)
             {
                 i++;
                 base.FinishSetup();
             }
 
             this.userPresence = base.GetChildControl<ButtonControl>("UserPresence");
-		}
-	}
+        }
+    }
 }

@@ -7,7 +7,7 @@ using System.Linq;
 using System.Reflection;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.Layouts;
+using UnityEngine.InputSystem.XR;
 using UnityEngine.Rendering;
 using UnityEngine.SubsystemsImplementation;
 using UnityEngine.XR;
@@ -34,6 +34,7 @@ namespace SteamXR_Melon
 
             RegisterTypeInIl2Cpp.RegisterAssembly(typeof(XRGeneralSettings).Assembly);
             RegisterTypeInIl2Cpp.RegisterAssembly(typeof(OpenXRSettings).Assembly);
+            HarmonyLib.Harmony.CreateAndPatchAll(typeof(InputControlLayout_AddControlItemsFromMembers_Patch).Assembly);
 
             OpenXRSettings.Instance.renderMode = OpenXRSettings.RenderMode.MultiPass;
 
@@ -101,19 +102,20 @@ namespace SteamXR_Melon
             list.Add(loader);
 
             RegisterAllInputDevices();
+
+            //this should then load the corresponding, injected control template into the input map and then our devices should :tm: work :D
+            XRSupport.Initialize();
         }
 
         private static void RegisterAllInputDevices()
         {
-            HarmonyLib.Harmony.CreateAndPatchAll(typeof(InputControlLayoutPatches));
-
             Assembly assembly = typeof(DPadInteraction).Assembly;
             var types = from type in assembly.GetTypes()
                         where Attribute.IsDefined(type, typeof(InputControlLayoutAttribute))
                         select type;
             foreach (var type in types)
             {
-                MelonLogger.Msg($"type found: {type.Name} populating....");
+                //MelonLogger.Msg($"type found: {type.Name} populating....");
                 var fields = from field in type.GetProperties(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.DeclaredOnly | BindingFlags.Instance)
                              where Attribute.IsDefined(field, typeof(InputControlAttribute))
                              select field;
@@ -121,7 +123,7 @@ namespace SteamXR_Melon
                 if (fields.Any())
                 {
                     InputSystem.s_Manager.RegisterControlLayout(type.Name, Il2CppType.From(type));
-                    MelonLogger.Msg("registered " + type.Name);
+                    MelonLogger.Msg("[XR Patch] Registered control layout for: " + type.Name);
                 }
             }
         }

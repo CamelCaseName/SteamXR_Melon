@@ -144,7 +144,7 @@ namespace UnityEngine.XR.OpenXR.Il2CppShenanigans
         /// <seealso cref="InputControlLayout.ControlItem.usages"/>
         /// <seealso cref="CommonUsages"/>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1819:PropertiesShouldNotReturnArrays", Justification = "According to MSDN, this message can be ignored for attribute parameters, as there are no better alternatives.")]
-        public string[] usages { get; set; }
+        public string[] usages { get; set; } = Array.Empty<string>();
 
         /// <summary>
         /// Optional list of parameters to apply to the control.
@@ -220,7 +220,7 @@ namespace UnityEngine.XR.OpenXR.Il2CppShenanigans
         /// <seealso cref="InputControl.aliases"/>
         /// <seealso cref="InputControlLayout.ControlItem.aliases"/>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1819:PropertiesShouldNotReturnArrays", Justification = "According to MSDN, this message can be ignored for attribute parameters, as there are no better alternatives.")]
-        public string[] aliases { get; set; }
+        public string[] aliases { get; set; } = Array.Empty<string>();
 
         public string useStateFrom { get; set; }
 

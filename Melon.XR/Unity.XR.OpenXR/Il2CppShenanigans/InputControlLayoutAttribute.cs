@@ -42,7 +42,7 @@ namespace UnityEngine.XR.OpenXR.Il2CppShenanigans
         /// </remarks>
         /// <seealso cref="LowLevel.InputStateBlock"/>
         /// <seealso cref="LowLevel.MouseState"/>
-        public Type stateType { get; set; }
+        public Il2CppSystem.Type stateType { get; set; }
 
         /// <summary>
         /// <see cref="FourCC"/> identifier for the memory format associated with the layout.
@@ -68,15 +68,19 @@ namespace UnityEngine.XR.OpenXR.Il2CppShenanigans
         /// </remarks>
         public bool isNoisy { get; set; }
 
-        internal bool? canRunInBackgroundInternal;
+        internal Il2CppSystem.Nullable<bool> canRunInBackgroundInternal = new();
 
         public bool canRunInBackground
         {
             get => canRunInBackgroundInternal.Value;
-            set => canRunInBackgroundInternal = value;
+            set
+            {
+                canRunInBackgroundInternal.value = value;
+                canRunInBackgroundInternal.hasValue = true;
+            }
         }
 
-        internal bool? updateBeforeRenderInternal;
+        internal Il2CppSystem.Nullable<bool> updateBeforeRenderInternal = new();
 
         /// <summary>
         /// Whether the device should receive events in <see cref="LowLevel.InputUpdateType.BeforeRender"/> updates.
@@ -85,7 +89,11 @@ namespace UnityEngine.XR.OpenXR.Il2CppShenanigans
         public bool updateBeforeRender
         {
             get => updateBeforeRenderInternal.Value;
-            set => updateBeforeRenderInternal = value;
+            set
+            {
+                updateBeforeRenderInternal.value = value;
+                updateBeforeRenderInternal.hasValue = true;
+            }
         }
 
         /// <summary>
