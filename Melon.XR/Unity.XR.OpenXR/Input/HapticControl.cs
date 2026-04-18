@@ -2,7 +2,6 @@
 using System;
 using System.Runtime.CompilerServices;
 using UnityEngine.InputSystem;
-using UnityEngine.Scripting;
 
 namespace UnityEngine.XR.OpenXR.Input
 {

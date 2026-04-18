@@ -105,6 +105,16 @@ namespace SteamXR_Melon
 
             //this should then load the corresponding, injected control template into the input map and then our devices should :tm: work :D
             XRSupport.Initialize();
+
+            //foreach (var item in InputSystem.s_Manager.m_Layouts.layoutTypes)
+            //{
+            //    MelonLogger.Msg(item.value.Name);
+            //}
+
+            //var pad = InputSystem.AddDevice<HPReverbG2ControllerProfile.ReverbG2Controller>();
+            //MelonLogger.Msg("added " + pad.displayName);
+            //var pad2 = InputSystem.AddDevice<DPadInteraction.DPadDevice>();
+            //MelonLogger.Msg("added " + pad2.displayName);
         }
 
         private static void RegisterAllInputDevices()
@@ -116,12 +126,23 @@ namespace SteamXR_Melon
             foreach (var type in types)
             {
                 //MelonLogger.Msg($"type found: {type.Name} populating....");
-                var fields = from field in type.GetProperties(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.DeclaredOnly | BindingFlags.Instance)
+                var fields = from field in type.GetFields(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.DeclaredOnly | BindingFlags.Instance)
                              where Attribute.IsDefined(field, typeof(InputControlAttribute))
                              select field;
                 //register layout. it is then however not yet loaded....
                 if (fields.Any())
                 {
+                    foreach (var field in fields)
+                    {
+                        var attribute = field.GetCustomAttribute<InputControlAttribute>(false);
+                        if (string.IsNullOrEmpty(attribute.layout) && field.FieldType.Name.EndsWith("Control"))
+                        {
+                            var len = field.FieldType.Name.Length;
+                            attribute.layout = field.FieldType.Name[..(len - ("Control".Length))];
+                            //MelonLogger.Msg(attribute.layout);
+                        }
+                    }
+
                     InputSystem.s_Manager.RegisterControlLayout(type.Name, Il2CppType.From(type));
                     MelonLogger.Msg("[XR Patch] Registered control layout for: " + type.Name);
                 }

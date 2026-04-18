@@ -253,37 +253,42 @@ namespace UnityEngine.XR.OpenXR.Features.Interactions
                 "gripPose"
             }, usage = "Device")]
             //[Preserve]
-            public UnityEngine.InputSystem.XR.PoseControl devicePose { get; private set; }
+            public UnityEngine.InputSystem.XR.PoseControl devicePose;
 
             // Token: 0x17000049 RID: 73
             // (get) Token: 0x060001EA RID: 490 RVA: 0x000066E5 File Offset: 0x000048E5
             // (set) Token: 0x060001EB RID: 491 RVA: 0x000066ED File Offset: 0x000048ED
             [InputControl(offset = 0U, alias = "aimPose", usage = "Pointer")]
             //[Preserve]
-            public UnityEngine.InputSystem.XR.PoseControl pointer { get; private set; }
+            public UnityEngine.InputSystem.XR.PoseControl pointer;
 
             // Token: 0x1700004A RID: 74
             // (get) Token: 0x060001EC RID: 492 RVA: 0x000066F6 File Offset: 0x000048F6
             // (set) Token: 0x060001ED RID: 493 RVA: 0x000066FE File Offset: 0x000048FE
             [InputControl(offset = 0U)]
             //[Preserve]
-            public UnityEngine.InputSystem.XR.PoseControl pokePose { get; private set; }
+            public UnityEngine.InputSystem.XR.PoseControl pokePose;
 
             // Token: 0x1700004B RID: 75
             // (get) Token: 0x060001EE RID: 494 RVA: 0x00006707 File Offset: 0x00004907
             // (set) Token: 0x060001EF RID: 495 RVA: 0x0000670F File Offset: 0x0000490F
             [InputControl(offset = 0U)]
             //[Preserve]
-            public UnityEngine.InputSystem.XR.PoseControl pinchPose { get; private set; }
+            public UnityEngine.InputSystem.XR.PoseControl pinchPose;
 
             // Token: 0x060001F0 RID: 496 RVA: 0x00006718 File Offset: 0x00004918
+            private bool setUp = false;
             public override void FinishSetup()
             {
-                base.FinishSetup();
-                this.devicePose = base.GetChildControl<UnityEngine.InputSystem.XR.PoseControl>("devicePose");
-                this.pointer = base.GetChildControl<UnityEngine.InputSystem.XR.PoseControl>("pointer");
-                this.pokePose = base.GetChildControl<UnityEngine.InputSystem.XR.PoseControl>("pokePose");
-                this.pinchPose = base.GetChildControl<UnityEngine.InputSystem.XR.PoseControl>("pinchPose");
+                if (!setUp)
+                {
+                    setUp = true;
+                    base.FinishSetup();
+                    this.devicePose = base.GetChildControl<UnityEngine.InputSystem.XR.PoseControl>("devicePose");
+                    this.pointer = base.GetChildControl<UnityEngine.InputSystem.XR.PoseControl>("pointer");
+                    this.pokePose = base.GetChildControl<UnityEngine.InputSystem.XR.PoseControl>("pokePose");
+                    this.pinchPose = base.GetChildControl<UnityEngine.InputSystem.XR.PoseControl>("pinchPose");
+                }
             }
         }
     }

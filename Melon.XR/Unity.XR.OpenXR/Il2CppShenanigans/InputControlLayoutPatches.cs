@@ -5,14 +5,16 @@ using Il2CppSystem.Collections.Generic;
 using Il2CppSystem.IO;
 using Il2CppSystem.Reflection;
 using Il2CppSystem.Runtime.InteropServices;
-using JetBrains.Annotations;
 using MelonLoader;
+using System.Diagnostics.Metrics;
 using System.Linq;
 using System.Reflection;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Layouts;
 using UnityEngine.InputSystem.LowLevel;
 using UnityEngine.InputSystem.Utilities;
+using UnityEngine.XR.OpenXR.Features.Interactions;
+using UnityEngine.XR.OpenXR.Input;
 
 namespace UnityEngine.XR.OpenXR.Il2CppShenanigans
 {
@@ -117,14 +119,32 @@ namespace UnityEngine.XR.OpenXR.Il2CppShenanigans
     [HarmonyLib.HarmonyPatch(typeof(InputControlLayout), nameof(InputControlLayout.FromType))]
     public class InputControlLayout_FromType_Patch
     {
-        private static bool Prefix(string name, Il2CppSystem.Type type, InputControlLayout __result)
+        private static bool Prefix(string name, Il2CppSystem.Type type, ref InputControlLayout __result)
         {
             List<InputControlLayout.ControlItem> controlLayouts = new();
             var systemType = System.Type.GetType(type.AssemblyQualifiedName); //name is right here, needs the fully qualified name :)
-
+            //MelonLogger.Msg(systemType?.AssemblyQualifiedName);
             systemType ??= System.Type.GetType(type.FullName);
+            systemType ??= System.Type.GetType(type.Name);
+            //MelonLogger.Msg(systemType?.AssemblyQualifiedName);
 
-            MelonLogger.Msg("[XR Patch] trying to build layout for: " + type.Name);
+            if (systemType is null)
+            {
+                foreach (var t in typeof(DPadInteraction.DPadDevice).Assembly.GetTypes())
+                {
+                    if (t.Name == type.Name)
+                    {
+                        systemType = t;
+                        break;
+                    }
+                }
+
+                //MelonLogger.Msg(systemType?.AssemblyQualifiedName);
+            }
+            if (!type.Name.EndsWith("Control"))
+            {
+                MelonLogger.Msg("[XR Patch] trying to build layout for: " + type.FullName);
+            }
             //MelonLogger.Msg("full type: " + type.AssemblyQualifiedName);
             int count = 0;
             InputControlLayoutAttribute? layoutAttribute = default;
@@ -147,11 +167,21 @@ namespace UnityEngine.XR.OpenXR.Il2CppShenanigans
             {
                 var old = type.GetCustomAttribute<UnityEngine.InputSystem.Layouts.InputControlLayoutAttribute>();
 
-                if (old is null)
+                if (old is null && !type.FullName.EndsWith("Control"))
                 {
+                    foreach (var attr in Il2CppSystem.Attribute.GetCustomAttributes(type))
+                    {
+                        MelonLogger.Msg(attr.GetIl2CppType().Name);
+                    }
                     MelonLogger.Error(type.AssemblyQualifiedName + " was either from unity, but had no inputcontrollayout attribute, or was a system type but had no replacement attribute... Or system type could not be found....");
                     return false;
                 }
+                else
+                {
+                    old ??= new();
+                    old.stateType = type;
+                }
+
                 layoutAttribute = new()
                 {
                     //canRunInBackground runs into an issue where its internal nullable is fucked
@@ -164,7 +194,7 @@ namespace UnityEngine.XR.OpenXR.Il2CppShenanigans
                     isGenericTypeOfDevice = old.isGenericTypeOfDevice,
                     isNoisy = old.isNoisy,
                     stateFormat = old.stateFormat,
-                    stateType = old.stateType,
+                    stateType = old.stateType, //todo investiage?
                     //same issue here :(
                     updateBeforeRender = true,
                     variants = old.variants
@@ -197,6 +227,10 @@ namespace UnityEngine.XR.OpenXR.Il2CppShenanigans
             {
                 stateFormat = new FourCC(layoutAttribute.stateFormat);
             }
+            if (type.Name == nameof(HapticControl))
+            {
+                stateFormat = InputStateBlock.FormatBit;
+            }
             InternedString variants = new();
             if (layoutAttribute != null)
             {
@@ -225,7 +259,10 @@ namespace UnityEngine.XR.OpenXR.Il2CppShenanigans
                 layout.m_CommonUsages = interneds;
             }
 
-            MelonLogger.Msg("[XR Patch] Created Input Layout for: " + layout.name);
+            if (!type.Name.EndsWith("Control"))
+            {
+                MelonLogger.Msg("[XR Patch] Created Input Layout for: " + layout.name);
+            }
             __result = layout;
 
             return false;
@@ -238,6 +275,7 @@ namespace UnityEngine.XR.OpenXR.Il2CppShenanigans
             MelonLogger.Msg("[XR Patch] control has " + fields.Length + " fields.");
             foreach (var member in fields)
             {
+                //MelonLogger.Msg(member.Name + "|" + member.DeclaringType?.Name);
                 if (!(member.DeclaringType == typeof(InputControl)))
                 {
                     System.Type valueType = member.FieldType;
@@ -285,13 +323,15 @@ namespace UnityEngine.XR.OpenXR.Il2CppShenanigans
             string? displayName = attribute?.displayName;
             string? shortDisplayName = attribute?.shortDisplayName;
             string? layout = attribute?.layout;
-            if (string.IsNullOrEmpty(layout) && !isModifyingChildControlByPath && (member.GetCustomAttribute<InputControlAttribute>(false) == null))
+            if (string.IsNullOrEmpty(layout) && member.FieldType.Name.EndsWith("Control"))
             {
-                layout = InputControlLayout.InferLayoutFromValueType(Il2CppType.From(member.FieldType));
+                var len = member.FieldType.Name.Length;
+                layout = member.FieldType.Name[..(len - ("Control".Length))].ToLowerInvariant();
+                //MelonLogger.Msg(attribute.layout);
             }
 
             MelonLogger.Msg("[XR Patch] creating " + member.Name);
-            //todo something triggers nullref after this one, but probably only after the offset setting
+
             string variants = string.Empty;
             if (attribute != null && !string.IsNullOrEmpty(attribute.variants))
             {
@@ -320,6 +360,11 @@ namespace UnityEngine.XR.OpenXR.Il2CppShenanigans
                 sizeInBits = attribute.sizeInBits;
             }
             FourCC format = default;
+            if (member.FieldType.Name == nameof(HapticControl))
+            {
+                sizeInBits = 1;
+                format = InputStateBlock.FormatBit;
+            }
             if (attribute != null && !string.IsNullOrEmpty(attribute.format))
             {
                 format = new FourCC(attribute.format);
@@ -399,6 +444,7 @@ namespace UnityEngine.XR.OpenXR.Il2CppShenanigans
                 minValue = PrimitiveValue.FromObject(attribute.minValue);
                 maxValue = PrimitiveValue.FromObject(attribute.maxValue);
             }
+
             return new InputControlLayout.ControlItem
             {
                 name = new InternedString(name),
@@ -423,7 +469,7 @@ namespace UnityEngine.XR.OpenXR.Il2CppShenanigans
                 arraySize = arraySize,
                 defaultState = defaultState,
                 minValue = minValue,
-                maxValue = maxValue
+                maxValue = maxValue,
             };
         }
         //public static int GetFieldOffset(this System.Reflection.FieldInfo fi) =>

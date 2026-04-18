@@ -135,13 +135,18 @@ namespace UnityEngine.XR.OpenXR.Features.Interactions
                 "Device",
                 "gaze"
             })]
-            public UnityEngine.InputSystem.XR.PoseControl pose { get; private set; }
+            public UnityEngine.InputSystem.XR.PoseControl pose;
 
             // Token: 0x060001DC RID: 476 RVA: 0x000061EB File Offset: 0x000043EB
+            private bool setUp = false;
             public override void FinishSetup()
             {
-                base.FinishSetup();
-                this.pose = base.GetChildControl<UnityEngine.InputSystem.XR.PoseControl>("pose");
+                if (!setUp)
+                {
+                    setUp = true;
+                    base.FinishSetup();
+                    this.pose = base.GetChildControl<UnityEngine.InputSystem.XR.PoseControl>("pose");
+                }
             }
         }
     }

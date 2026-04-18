@@ -1,6 +1,7 @@
 ﻿using Il2CppInterop.Runtime;
 using Il2CppInterop.Runtime.Attributes;
 using Il2CppInterop.Runtime.Injection;
+using Il2CppSystem.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -45,7 +46,7 @@ namespace UnityEngine.XR.OpenXR.Features.Interactions
         // Token: 0x060001B3 RID: 435 RVA: 0x000057EC File Offset: 0x000039EC
         protected override void RegisterDeviceLayout()
         {
-            var typeFromHandle = Il2CppType.Of<DPadInteraction.DPad>();
+            var typeFromHandle = Il2CppType.Of<DPadInteraction.DPadDevice>();
             string name = null;
             InputDeviceMatcher inputDeviceMatcher = default(InputDeviceMatcher);
             inputDeviceMatcher = inputDeviceMatcher.WithInterface("^(XRInput)", true);
@@ -352,84 +353,91 @@ namespace UnityEngine.XR.OpenXR.Features.Interactions
             "RightHand"
         })]
         [MelonLoader.RegisterTypeInIl2Cpp(true)]
-        public class DPad : XRController
+        public class DPadDevice : XRController
         {
+
             // Token: 0x1700003D RID: 61
             // (get) Token: 0x060001B9 RID: 441 RVA: 0x00005E8B File Offset: 0x0000408B
             // (set) Token: 0x060001BA RID: 442 RVA: 0x00005E93 File Offset: 0x00004093
             //[Preserve]
             [InputControl]
-            public ButtonControl thumbstickDpadUp { get; private set; }
+            public ButtonControl thumbstickDpadUp;
 
             // Token: 0x1700003E RID: 62
             // (get) Token: 0x060001BB RID: 443 RVA: 0x00005E9C File Offset: 0x0000409C
             // (set) Token: 0x060001BC RID: 444 RVA: 0x00005EA4 File Offset: 0x000040A4
             [InputControl]
             //[Preserve]
-            public ButtonControl thumbstickDpadDown { get; private set; }
+            public ButtonControl thumbstickDpadDown;
 
             // Token: 0x1700003F RID: 63
             // (get) Token: 0x060001BD RID: 445 RVA: 0x00005EAD File Offset: 0x000040AD
             // (set) Token: 0x060001BE RID: 446 RVA: 0x00005EB5 File Offset: 0x000040B5
             //[Preserve]
             [InputControl]
-            public ButtonControl thumbstickDpadLeft { get; private set; }
+            public ButtonControl thumbstickDpadLeft;
 
             // Token: 0x17000040 RID: 64
             // (get) Token: 0x060001BF RID: 447 RVA: 0x00005EBE File Offset: 0x000040BE
             // (set) Token: 0x060001C0 RID: 448 RVA: 0x00005EC6 File Offset: 0x000040C6
             [InputControl]
             //[Preserve]
-            public ButtonControl thumbstickDpadRight { get; private set; }
+            public ButtonControl thumbstickDpadRight;
 
             // Token: 0x17000041 RID: 65
             // (get) Token: 0x060001C1 RID: 449 RVA: 0x00005ECF File Offset: 0x000040CF
             // (set) Token: 0x060001C2 RID: 450 RVA: 0x00005ED7 File Offset: 0x000040D7
             //[Preserve]
             [InputControl]
-            public ButtonControl trackpadDpadUp { get; private set; }
+            public ButtonControl trackpadDpadUp;
 
             // Token: 0x17000042 RID: 66
             // (get) Token: 0x060001C3 RID: 451 RVA: 0x00005EE0 File Offset: 0x000040E0
             // (set) Token: 0x060001C4 RID: 452 RVA: 0x00005EE8 File Offset: 0x000040E8
             //[Preserve]
             [InputControl]
-            public ButtonControl trackpadDpadDown { get; private set; }
+            public ButtonControl trackpadDpadDown;
 
             // Token: 0x17000043 RID: 67
             // (get) Token: 0x060001C5 RID: 453 RVA: 0x00005EF1 File Offset: 0x000040F1
             // (set) Token: 0x060001C6 RID: 454 RVA: 0x00005EF9 File Offset: 0x000040F9
             //[Preserve]
             [InputControl]
-            public ButtonControl trackpadDpadLeft { get; private set; }
+            public ButtonControl trackpadDpadLeft;
 
             // Token: 0x17000044 RID: 68
             // (get) Token: 0x060001C7 RID: 455 RVA: 0x00005F02 File Offset: 0x00004102
             // (set) Token: 0x060001C8 RID: 456 RVA: 0x00005F0A File Offset: 0x0000410A
             //[Preserve]
             [InputControl]
-            public ButtonControl trackpadDpadRight { get; private set; }
+            public ButtonControl trackpadDpadRight;
 
             // Token: 0x17000045 RID: 69
             // (get) Token: 0x060001C9 RID: 457 RVA: 0x00005F13 File Offset: 0x00004113
             // (set) Token: 0x060001CA RID: 458 RVA: 0x00005F1B File Offset: 0x0000411B
             //[Preserve]
             [InputControl]
-            public ButtonControl trackpadDpadCenter { get; private set; }
+            public ButtonControl trackpadDpadCenter;
 
             // Token: 0x060001CB RID: 459 RVA: 0x00005F24 File Offset: 0x00004124
+
+            private bool setUp = false;
             public override void FinishSetup()
             {
-                base.FinishSetup();
-                this.thumbstickDpadUp = base.GetChildControl<ButtonControl>("thumbstickDpadUp");
-                this.thumbstickDpadDown = base.GetChildControl<ButtonControl>("thumbstickDpadDown");
-                this.thumbstickDpadLeft = base.GetChildControl<ButtonControl>("thumbstickDpadLeft");
-                this.thumbstickDpadRight = base.GetChildControl<ButtonControl>("thumbstickDpadRight");
-                this.trackpadDpadUp = base.GetChildControl<ButtonControl>("trackpadDpadUp");
-                this.trackpadDpadDown = base.GetChildControl<ButtonControl>("trackpadDpadDown");
-                this.trackpadDpadLeft = base.GetChildControl<ButtonControl>("trackpadDpadLeft");
-                this.trackpadDpadRight = base.GetChildControl<ButtonControl>("trackpadDpadRight");
-                this.trackpadDpadCenter = base.GetChildControl<ButtonControl>("trackpadDpadCenter");
+                if (!setUp)
+                {
+                    setUp = true;
+                    base.FinishSetup();
+                    this.thumbstickDpadUp = base.GetChildControl<ButtonControl>("thumbstickDpadUp");
+                    this.thumbstickDpadDown = base.GetChildControl<ButtonControl>("thumbstickDpadDown");
+                    this.thumbstickDpadLeft = base.GetChildControl<ButtonControl>("thumbstickDpadLeft");
+                    this.thumbstickDpadRight = base.GetChildControl<ButtonControl>("thumbstickDpadRight");
+                    this.trackpadDpadUp = base.GetChildControl<ButtonControl>("trackpadDpadUp");
+                    this.trackpadDpadDown = base.GetChildControl<ButtonControl>("trackpadDpadDown");
+                    this.trackpadDpadLeft = base.GetChildControl<ButtonControl>("trackpadDpadLeft");
+                    this.trackpadDpadRight = base.GetChildControl<ButtonControl>("trackpadDpadRight");
+                    this.trackpadDpadCenter = base.GetChildControl<ButtonControl>("trackpadDpadCenter");
+                }
             }
         }
     }

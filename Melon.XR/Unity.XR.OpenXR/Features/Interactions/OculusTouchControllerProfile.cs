@@ -529,7 +529,7 @@ namespace UnityEngine.XR.OpenXR.Features.Interactions
                 "Joystick"
             }, usage = "Primary2DAxis")]
             //[Preserve]
-            public StickControl thumbstick { get; private set; }
+            public StickControl thumbstick;
 
             // Token: 0x170000ED RID: 237
             // (get) Token: 0x0600037C RID: 892 RVA: 0x0000C005 File Offset: 0x0000A205
@@ -540,7 +540,7 @@ namespace UnityEngine.XR.OpenXR.Features.Interactions
                 "squeeze"
             }, usage = "Grip")]
             //[Preserve]
-            public AxisControl grip { get; private set; }
+            public AxisControl grip;
 
             // Token: 0x170000EE RID: 238
             // (get) Token: 0x0600037E RID: 894 RVA: 0x0000C016 File Offset: 0x0000A216
@@ -551,7 +551,7 @@ namespace UnityEngine.XR.OpenXR.Features.Interactions
                 "GripButton",
                 "squeezeClicked"
             }, usage = "GripButton")]
-            public ButtonControl gripPressed { get; private set; }
+            public ButtonControl gripPressed;
 
             // Token: 0x170000EF RID: 239
             // (get) Token: 0x06000380 RID: 896 RVA: 0x0000C027 File Offset: 0x0000A227
@@ -563,7 +563,7 @@ namespace UnityEngine.XR.OpenXR.Features.Interactions
                 "systemButton"
             }, usage = "MenuButton")]
             //[Preserve]
-            public ButtonControl menu { get; private set; }
+            public ButtonControl menu;
 
             // Token: 0x170000F0 RID: 240
             // (get) Token: 0x06000382 RID: 898 RVA: 0x0000C038 File Offset: 0x0000A238
@@ -576,7 +576,7 @@ namespace UnityEngine.XR.OpenXR.Features.Interactions
                 "buttonX"
             }, usage = "PrimaryButton")]
             //[Preserve]
-            public ButtonControl primaryButton { get; private set; }
+            public ButtonControl primaryButton;
 
             // Token: 0x170000F1 RID: 241
             // (get) Token: 0x06000384 RID: 900 RVA: 0x0000C049 File Offset: 0x0000A249
@@ -591,7 +591,7 @@ namespace UnityEngine.XR.OpenXR.Features.Interactions
                 "buttonATouched",
                 "buttonXTouched"
             }, usage = "PrimaryTouch")]
-            public ButtonControl primaryTouched { get; private set; }
+            public ButtonControl primaryTouched;
 
             // Token: 0x170000F2 RID: 242
             // (get) Token: 0x06000386 RID: 902 RVA: 0x0000C05A File Offset: 0x0000A25A
@@ -604,7 +604,7 @@ namespace UnityEngine.XR.OpenXR.Features.Interactions
                 "buttonB",
                 "buttonY"
             }, usage = "SecondaryButton")]
-            public ButtonControl secondaryButton { get; private set; }
+            public ButtonControl secondaryButton;
 
             // Token: 0x170000F3 RID: 243
             // (get) Token: 0x06000388 RID: 904 RVA: 0x0000C06B File Offset: 0x0000A26B
@@ -619,14 +619,14 @@ namespace UnityEngine.XR.OpenXR.Features.Interactions
                 "buttonBTouched",
                 "buttonYTouched"
             }, usage = "SecondaryTouch")]
-            public ButtonControl secondaryTouched { get; private set; }
+            public ButtonControl secondaryTouched;
 
             // Token: 0x170000F4 RID: 244
             // (get) Token: 0x0600038A RID: 906 RVA: 0x0000C07C File Offset: 0x0000A27C
             // (set) Token: 0x0600038B RID: 907 RVA: 0x0000C084 File Offset: 0x0000A284
             [InputControl(usage = "Trigger")]
             //[Preserve]
-            public AxisControl trigger { get; private set; }
+            public AxisControl trigger;
 
             // Token: 0x170000F5 RID: 245
             // (get) Token: 0x0600038C RID: 908 RVA: 0x0000C08D File Offset: 0x0000A28D
@@ -638,7 +638,7 @@ namespace UnityEngine.XR.OpenXR.Features.Interactions
                 "indexTouched",
                 "triggerbutton"
             }, usage = "TriggerButton")]
-            public ButtonControl triggerPressed { get; private set; }
+            public ButtonControl triggerPressed;
 
             // Token: 0x170000F6 RID: 246
             // (get) Token: 0x0600038E RID: 910 RVA: 0x0000C09E File Offset: 0x0000A29E
@@ -649,7 +649,7 @@ namespace UnityEngine.XR.OpenXR.Features.Interactions
                 "indexTouch",
                 "indexNearTouched"
             }, usage = "TriggerTouch")]
-            public ButtonControl triggerTouched { get; private set; }
+            public ButtonControl triggerTouched;
 
             // Token: 0x170000F7 RID: 247
             // (get) Token: 0x06000390 RID: 912 RVA: 0x0000C0AF File Offset: 0x0000A2AF
@@ -661,7 +661,7 @@ namespace UnityEngine.XR.OpenXR.Features.Interactions
                 "thumbstickClick",
                 "joystickClicked"
             }, usage = "Primary2DAxisClick")]
-            public ButtonControl thumbstickClicked { get; private set; }
+            public ButtonControl thumbstickClicked;
 
             // Token: 0x170000F8 RID: 248
             // (get) Token: 0x06000392 RID: 914 RVA: 0x0000C0C0 File Offset: 0x0000A2C0
@@ -673,14 +673,14 @@ namespace UnityEngine.XR.OpenXR.Features.Interactions
                 "thumbstickTouch",
                 "joystickTouched"
             }, usage = "Primary2DAxisTouch")]
-            public ButtonControl thumbstickTouched { get; private set; }
+            public ButtonControl thumbstickTouched;
 
             // Token: 0x170000F9 RID: 249
             // (get) Token: 0x06000394 RID: 916 RVA: 0x0000C0D1 File Offset: 0x0000A2D1
             // (set) Token: 0x06000395 RID: 917 RVA: 0x0000C0D9 File Offset: 0x0000A2D9
             [InputControl(usage = "ThumbrestTouch")]
             //[Preserve]
-            public ButtonControl thumbrestTouched { get; private set; }
+            public ButtonControl thumbrestTouched;
 
             // Token: 0x170000FA RID: 250
             // (get) Token: 0x06000396 RID: 918 RVA: 0x0000C0E2 File Offset: 0x0000A2E2
@@ -691,91 +691,96 @@ namespace UnityEngine.XR.OpenXR.Features.Interactions
                 "device",
                 "gripPose"
             }, usage = "Device")]
-            public UnityEngine.InputSystem.XR.PoseControl devicePose { get; private set; }
+            public UnityEngine.InputSystem.XR.PoseControl devicePose;
 
             // Token: 0x170000FB RID: 251
             // (get) Token: 0x06000398 RID: 920 RVA: 0x0000C0F3 File Offset: 0x0000A2F3
             // (set) Token: 0x06000399 RID: 921 RVA: 0x0000C0FB File Offset: 0x0000A2FB
             //[Preserve]
             [InputControl(offset = 0U, alias = "aimPose", usage = "Pointer")]
-            public UnityEngine.InputSystem.XR.PoseControl pointer { get; private set; }
+            public UnityEngine.InputSystem.XR.PoseControl pointer;
 
             // Token: 0x170000FC RID: 252
             // (get) Token: 0x0600039A RID: 922 RVA: 0x0000C104 File Offset: 0x0000A304
             // (set) Token: 0x0600039B RID: 923 RVA: 0x0000C10C File Offset: 0x0000A30C
             [InputControl(offset = 28U, usage = "IsTracked")]
             //[Preserve]
-            public new ButtonControl isTracked { get; private set; }
+            public new ButtonControl isTracked;
 
             // Token: 0x170000FD RID: 253
             // (get) Token: 0x0600039C RID: 924 RVA: 0x0000C115 File Offset: 0x0000A315
             // (set) Token: 0x0600039D RID: 925 RVA: 0x0000C11D File Offset: 0x0000A31D
             [InputControl(offset = 32U, usage = "TrackingState")]
             //[Preserve]
-            public new IntegerControl trackingState { get; private set; }
+            public new IntegerControl trackingState;
 
             // Token: 0x170000FE RID: 254
             // (get) Token: 0x0600039E RID: 926 RVA: 0x0000C126 File Offset: 0x0000A326
             // (set) Token: 0x0600039F RID: 927 RVA: 0x0000C12E File Offset: 0x0000A32E
             [InputControl(offset = 36U, noisy = true, alias = "gripPosition")]
             //[Preserve]
-            public new Vector3Control devicePosition { get; private set; }
+            public new Vector3Control devicePosition;
 
             // Token: 0x170000FF RID: 255
             // (get) Token: 0x060003A0 RID: 928 RVA: 0x0000C137 File Offset: 0x0000A337
             // (set) Token: 0x060003A1 RID: 929 RVA: 0x0000C13F File Offset: 0x0000A33F
             //[Preserve]
             [InputControl(offset = 48U, noisy = true, alias = "gripOrientation")]
-            public new QuaternionControl deviceRotation { get; private set; }
+            public new QuaternionControl deviceRotation;
 
             // Token: 0x17000100 RID: 256
             // (get) Token: 0x060003A2 RID: 930 RVA: 0x0000C148 File Offset: 0x0000A348
             // (set) Token: 0x060003A3 RID: 931 RVA: 0x0000C150 File Offset: 0x0000A350
             [InputControl(offset = 96U)]
             //[Preserve]
-            public Vector3Control pointerPosition { get; private set; }
+            public Vector3Control pointerPosition;
 
             // Token: 0x17000101 RID: 257
             // (get) Token: 0x060003A4 RID: 932 RVA: 0x0000C159 File Offset: 0x0000A359
             // (set) Token: 0x060003A5 RID: 933 RVA: 0x0000C161 File Offset: 0x0000A361
             [InputControl(offset = 108U, alias = "pointerOrientation")]
             //[Preserve]
-            public QuaternionControl pointerRotation { get; private set; }
+            public QuaternionControl pointerRotation;
 
             // Token: 0x17000102 RID: 258
             // (get) Token: 0x060003A6 RID: 934 RVA: 0x0000C16A File Offset: 0x0000A36A
             // (set) Token: 0x060003A7 RID: 935 RVA: 0x0000C172 File Offset: 0x0000A372
             [InputControl(usage = "Haptic")]
             //[Preserve]
-            public HapticControl haptic { get; private set; }
+            public HapticControl haptic;
 
             // Token: 0x060003A8 RID: 936 RVA: 0x0000C17C File Offset: 0x0000A37C
+            private bool setUp = false;
             public override void FinishSetup()
             {
-                base.FinishSetup();
-                this.thumbstick = base.GetChildControl<StickControl>("thumbstick");
-                this.trigger = base.GetChildControl<AxisControl>("trigger");
-                this.triggerPressed = base.GetChildControl<ButtonControl>("triggerPressed");
-                this.triggerTouched = base.GetChildControl<ButtonControl>("triggerTouched");
-                this.grip = base.GetChildControl<AxisControl>("grip");
-                this.gripPressed = base.GetChildControl<ButtonControl>("gripPressed");
-                this.menu = base.GetChildControl<ButtonControl>("menu");
-                this.primaryButton = base.GetChildControl<ButtonControl>("primaryButton");
-                this.primaryTouched = base.GetChildControl<ButtonControl>("primaryTouched");
-                this.secondaryButton = base.GetChildControl<ButtonControl>("secondaryButton");
-                this.secondaryTouched = base.GetChildControl<ButtonControl>("secondaryTouched");
-                this.thumbstickClicked = base.GetChildControl<ButtonControl>("thumbstickClicked");
-                this.thumbstickTouched = base.GetChildControl<ButtonControl>("thumbstickTouched");
-                this.thumbrestTouched = base.GetChildControl<ButtonControl>("thumbrestTouched");
-                this.devicePose = base.GetChildControl<UnityEngine.InputSystem.XR.PoseControl>("devicePose");
-                this.pointer = base.GetChildControl<UnityEngine.InputSystem.XR.PoseControl>("pointer");
-                this.isTracked = base.GetChildControl<ButtonControl>("isTracked");
-                this.trackingState = base.GetChildControl<IntegerControl>("trackingState");
-                this.devicePosition = base.GetChildControl<Vector3Control>("devicePosition");
-                this.deviceRotation = base.GetChildControl<QuaternionControl>("deviceRotation");
-                this.pointerPosition = base.GetChildControl<Vector3Control>("pointerPosition");
-                this.pointerRotation = base.GetChildControl<QuaternionControl>("pointerRotation");
-                this.haptic = base.GetChildControl<HapticControl>("haptic");
+                if (!setUp)
+                {
+                    setUp = true;
+                    base.FinishSetup();
+                    this.thumbstick = base.GetChildControl<StickControl>("thumbstick");
+                    this.trigger = base.GetChildControl<AxisControl>("trigger");
+                    this.triggerPressed = base.GetChildControl<ButtonControl>("triggerPressed");
+                    this.triggerTouched = base.GetChildControl<ButtonControl>("triggerTouched");
+                    this.grip = base.GetChildControl<AxisControl>("grip");
+                    this.gripPressed = base.GetChildControl<ButtonControl>("gripPressed");
+                    this.menu = base.GetChildControl<ButtonControl>("menu");
+                    this.primaryButton = base.GetChildControl<ButtonControl>("primaryButton");
+                    this.primaryTouched = base.GetChildControl<ButtonControl>("primaryTouched");
+                    this.secondaryButton = base.GetChildControl<ButtonControl>("secondaryButton");
+                    this.secondaryTouched = base.GetChildControl<ButtonControl>("secondaryTouched");
+                    this.thumbstickClicked = base.GetChildControl<ButtonControl>("thumbstickClicked");
+                    this.thumbstickTouched = base.GetChildControl<ButtonControl>("thumbstickTouched");
+                    this.thumbrestTouched = base.GetChildControl<ButtonControl>("thumbrestTouched");
+                    this.devicePose = base.GetChildControl<UnityEngine.InputSystem.XR.PoseControl>("devicePose");
+                    this.pointer = base.GetChildControl<UnityEngine.InputSystem.XR.PoseControl>("pointer");
+                    this.isTracked = base.GetChildControl<ButtonControl>("isTracked");
+                    this.trackingState = base.GetChildControl<IntegerControl>("trackingState");
+                    this.devicePosition = base.GetChildControl<Vector3Control>("devicePosition");
+                    this.deviceRotation = base.GetChildControl<QuaternionControl>("deviceRotation");
+                    this.pointerPosition = base.GetChildControl<Vector3Control>("pointerPosition");
+                    this.pointerRotation = base.GetChildControl<QuaternionControl>("pointerRotation");
+                    this.haptic = base.GetChildControl<HapticControl>("haptic");
+                }
             }
         }
     }

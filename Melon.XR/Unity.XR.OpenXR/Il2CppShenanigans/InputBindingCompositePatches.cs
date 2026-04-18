@@ -9,7 +9,7 @@ namespace UnityEngine.XR.OpenXR.Il2CppShenanigans
     //this handles the most important place where the inputcontrolattribute is read
     public class InputBindingComposites_GetExpectedControlLayoutName_Patch
     {
-        private static bool Prefix(string composite, string part, string __result)
+        private static bool Prefix(string composite, string part, ref string __result)
         {
             if (string.IsNullOrEmpty(composite))
             {
@@ -43,6 +43,6 @@ namespace UnityEngine.XR.OpenXR.Il2CppShenanigans
     //[HarmonyLib.HarmonyPatch(typeof(UnityEngine.InputSystem.InputBindingComposite._GetPartNames_d__12), nameof(UnityEngine.InputSystem.InputBindingComposite._GetPartNames_d__12.MoveNext))]
     //public class InputBindingComposites_MoveNext_Patch
     //{
-        
+
     //}
 }

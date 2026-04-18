@@ -17,12 +17,12 @@ namespace UnityEngine.XR.OpenXR.Features
         // Token: 0x17000037 RID: 55
         // (get) Token: 0x06000159 RID: 345 RVA: 0x00005264 File Offset: 0x00003464
         // (set) Token: 0x0600015A RID: 346 RVA: 0x0000526C File Offset: 0x0000346C
-        internal bool failedInitialization { get; private set; }
+        internal bool failedInitialization ;
 
 		// Token: 0x17000038 RID: 56
 		// (get) Token: 0x0600015B RID: 347 RVA: 0x00005275 File Offset: 0x00003475
 		// (set) Token: 0x0600015C RID: 348 RVA: 0x0000527C File Offset: 0x0000347C
-		internal static bool requiredFeatureFailed { get; private set; }
+		internal static bool requiredFeatureFailed ;
 
 		// Token: 0x17000039 RID: 57
 		// (get) Token: 0x0600015D RID: 349 RVA: 0x00005284 File Offset: 0x00003484
