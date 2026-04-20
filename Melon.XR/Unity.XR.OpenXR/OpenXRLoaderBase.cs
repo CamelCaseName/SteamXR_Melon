@@ -33,7 +33,6 @@ namespace UnityEngine.XR.OpenXR
         [HideFromIl2Cpp]
         internal OpenXRLoaderBase.LoaderState currentLoaderState { get; private set; }
 
-        //todo maybe replace by our own unityhooks
         private Action OnApplicationRender = null;
 
         // Token: 0x17000010 RID: 16
@@ -450,8 +449,8 @@ namespace UnityEngine.XR.OpenXR
             {
                 return;
             }
-            StringBuilder requestedLog = new StringBuilder("");
-            StringBuilder failedLog = new StringBuilder("");
+            StringBuilder requestedLog = new("");
+            StringBuilder failedLog = new("");
             uint count = 0U;
             uint failedCount = 0U;
             foreach (OpenXRLoaderBase.FeatureLoggingInfo feature in this.featureLoggingInfo)
@@ -489,7 +488,7 @@ namespace UnityEngine.XR.OpenXR
                         }
                     }
                 }
-                requestedLog.Append("\n");
+                requestedLog.Append('\n');
             }
             ulong section = DiagnosticReport.GetSection("OpenXR Runtime Info");
             DiagnosticReport.AddSectionBreak(section);
@@ -504,7 +503,7 @@ namespace UnityEngine.XR.OpenXR
             ulong section = DiagnosticReport.GetSection("OpenXR Runtime Info");
             DiagnosticReport.AddSectionBreak(section);
             string[] extensions = OpenXRRuntime.GetEnabledExtensions();
-            StringBuilder log = new StringBuilder(string.Format("({0})\n", extensions.Length));
+            StringBuilder log = new(string.Format("({0})\n", extensions.Length));
             foreach (string extension in extensions)
             {
                 log.Append(string.Format("  {0}: Version={1}\n", extension, OpenXRRuntime.GetExtensionVersion(extension)));
@@ -666,20 +665,20 @@ namespace UnityEngine.XR.OpenXR
         private const double k_IdlePollingWaitTimeInSeconds = 0.1;
 
         // Token: 0x04000043 RID: 67
-        private static Il2CppSystem.Collections.Generic.List<XRDisplaySubsystemDescriptor> s_DisplaySubsystemDescriptors = new Il2CppSystem.Collections.Generic.List<XRDisplaySubsystemDescriptor>();
+        private static Il2CppSystem.Collections.Generic.List<XRDisplaySubsystemDescriptor> s_DisplaySubsystemDescriptors = new();
 
         // Token: 0x04000044 RID: 68
-        private static Il2CppSystem.Collections.Generic.List<XRInputSubsystemDescriptor> s_InputSubsystemDescriptors = new Il2CppSystem.Collections.Generic.List<XRInputSubsystemDescriptor>();
+        private static Il2CppSystem.Collections.Generic.List<XRInputSubsystemDescriptor> s_InputSubsystemDescriptors = new();
 
         // Token: 0x04000047 RID: 71
-        private List<OpenXRLoaderBase.LoaderState> validLoaderInitStates = new List<OpenXRLoaderBase.LoaderState>
+        private List<OpenXRLoaderBase.LoaderState> validLoaderInitStates = new()
         {
             OpenXRLoaderBase.LoaderState.Uninitialized,
             OpenXRLoaderBase.LoaderState.InitializeAttempted
         };
 
         // Token: 0x04000048 RID: 72
-        private List<OpenXRLoaderBase.LoaderState> validLoaderStartStates = new List<OpenXRLoaderBase.LoaderState>
+        private List<OpenXRLoaderBase.LoaderState> validLoaderStartStates = new()
         {
             OpenXRLoaderBase.LoaderState.Initialized,
             OpenXRLoaderBase.LoaderState.StartAttempted,
@@ -687,7 +686,7 @@ namespace UnityEngine.XR.OpenXR
         };
 
         // Token: 0x04000049 RID: 73
-        private List<OpenXRLoaderBase.LoaderState> validLoaderStopStates = new List<OpenXRLoaderBase.LoaderState>
+        private List<OpenXRLoaderBase.LoaderState> validLoaderStopStates = new()
         {
             OpenXRLoaderBase.LoaderState.StartAttempted,
             OpenXRLoaderBase.LoaderState.Started,
@@ -695,7 +694,7 @@ namespace UnityEngine.XR.OpenXR
         };
 
         // Token: 0x0400004A RID: 74
-        private List<OpenXRLoaderBase.LoaderState> validLoaderDeinitStates = new List<OpenXRLoaderBase.LoaderState>
+        private List<OpenXRLoaderBase.LoaderState> validLoaderDeinitStates = new()
         {
             OpenXRLoaderBase.LoaderState.InitializeAttempted,
             OpenXRLoaderBase.LoaderState.Initialized,
@@ -704,7 +703,7 @@ namespace UnityEngine.XR.OpenXR
         };
 
         // Token: 0x0400004B RID: 75
-        private List<OpenXRLoaderBase.LoaderState> runningStates = new List<OpenXRLoaderBase.LoaderState>
+        private List<OpenXRLoaderBase.LoaderState> runningStates = new()
         {
             OpenXRLoaderBase.LoaderState.Initialized,
             OpenXRLoaderBase.LoaderState.StartAttempted,

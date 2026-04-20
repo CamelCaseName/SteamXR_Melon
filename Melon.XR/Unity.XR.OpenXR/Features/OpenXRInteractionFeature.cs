@@ -73,7 +73,7 @@ namespace UnityEngine.XR.OpenXR.Features
 		{
 			if (map == null)
 			{
-				throw new ArgumentNullException("map");
+				throw new ArgumentNullException(nameof(map));
 			}
 			if (OpenXRInteractionFeature.m_CreatedActionMaps == null)
 			{

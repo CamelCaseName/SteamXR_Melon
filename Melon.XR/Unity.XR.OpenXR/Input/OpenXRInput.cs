@@ -17,58 +17,6 @@ using UnityEngine.XR.OpenXR.Features.Interactions;
 
 namespace UnityEngine.XR.OpenXR.Input
 {
-
-    [StructLayout(LayoutKind.Sequential)]
-    public struct NullableStruct<T> where T : unmanaged
-    {
-        private static readonly IntPtr classPtr = Il2CppClassPointerStore<Il2CppSystem.Nullable<T>>.NativeClassPtr;
-
-        public T value;
-        public bool has_value;
-
-        public NullableStruct(T value)
-        {
-            this.has_value = true;
-            this.value = value;
-        }
-
-        public static implicit operator T?(NullableStruct<T> inst)
-        {
-            if (inst.has_value)
-            { return inst.value; }
-            return default;
-        }
-
-        public static implicit operator NullableStruct<T>(T? inst)
-        {
-            if (inst.HasValue)
-            { return new NullableStruct<T>(inst.Value); }
-            return default;
-        }
-
-        public static unsafe implicit operator NullableStruct<T>(Il2CppSystem.Nullable<T> boxed)
-        {
-            return *(NullableStruct<T>*)IL2CPP.il2cpp_object_unbox(boxed.Pointer);
-        }
-
-        public static unsafe implicit operator Il2CppSystem.Nullable<T>(NullableStruct<T> toBox)
-        {
-            IntPtr boxed;
-            if (toBox.has_value == false)
-            { boxed = toBox.ForceBox(); }
-            else
-            { boxed = IL2CPP.il2cpp_value_box(classPtr, (IntPtr)(&toBox)); }
-            return new Il2CppSystem.Nullable<T>(boxed);
-        }
-
-        private unsafe IntPtr ForceBox()
-        {
-            IntPtr obj = IL2CPP.il2cpp_object_new(classPtr);
-            NullableStruct<T>* boxedValPtr = (NullableStruct<T>*)IL2CPP.il2cpp_object_unbox(obj);
-            *boxedValPtr = this;
-            return obj;
-        }
-    }
     // Token: 0x0200003A RID: 58
     public static class OpenXRInput
     {
@@ -111,8 +59,9 @@ namespace UnityEngine.XR.OpenXR.Input
         // Token: 0x060000FE RID: 254 RVA: 0x00004294 File Offset: 0x00002494
         internal static void AttachActionSets()
         {
-            List<OpenXRInteractionFeature.ActionMapConfig> actionMaps = new List<OpenXRInteractionFeature.ActionMapConfig>();
-            List<OpenXRInteractionFeature.ActionMapConfig> additiveActionMaps = new List<OpenXRInteractionFeature.ActionMapConfig>();
+            MelonLogger.Msg("[HPVR Input] Attaching action sets");
+            List<OpenXRInteractionFeature.ActionMapConfig> actionMaps = new();
+            List<OpenXRInteractionFeature.ActionMapConfig> additiveActionMaps = new();
             foreach (OpenXRInteractionFeature interactionFeature in from f in OpenXRSettings.Instance.features.OfType<OpenXRInteractionFeature>()
                                                                     where f.enabled && !f.IsAdditive
                                                                     select f)
@@ -129,18 +78,21 @@ namespace UnityEngine.XR.OpenXR.Input
             }
             if (!OpenXRInput.RegisterDevices(actionMaps, false))
             {
+                MelonLogger.Msg("[HPVR Input] Could not register devices");
                 return;
             }
             foreach (OpenXRInteractionFeature openXRInteractionFeature in from f in OpenXRSettings.Instance.features.OfType<OpenXRInteractionFeature>()
                                                                           where f.enabled && f.IsAdditive
                                                                           select f)
             {
+                MelonLogger.Msg("registeruing feature for:" + openXRInteractionFeature.name);
                 openXRInteractionFeature.CreateActionMaps(additiveActionMaps);
-                openXRInteractionFeature.AddAdditiveActions(actionMaps, additiveActionMaps[additiveActionMaps.Count - 1]);
+                openXRInteractionFeature.AddAdditiveActions(actionMaps, additiveActionMaps[^1]);
             }
-            Dictionary<string, List<OpenXRInput.SerializedBinding>> interactionProfiles = new Dictionary<string, List<OpenXRInput.SerializedBinding>>();
+            Dictionary<string, List<OpenXRInput.SerializedBinding>> interactionProfiles = new();
             if (!OpenXRInput.CreateActions(actionMaps, interactionProfiles))
             {
+                MelonLogger.Msg("[HPVR Input] Could not create actions");
                 return;
             }
             if (additiveActionMaps.Count > 0)
@@ -186,7 +138,7 @@ namespace UnityEngine.XR.OpenXR.Input
             foreach (OpenXRInteractionFeature.ActionMapConfig actionMap in actionMaps)
             {
                 string actionMapLocalizedName = OpenXRInput.SanitizeStringForOpenXRPath(actionMap.localizedName);
-                ulong actionSetId = OpenXRInput.Internal_CreateActionSet(OpenXRInput.SanitizeStringForOpenXRPath(actionMap.name), actionMapLocalizedName, default(OpenXRInput.SerializedGuid));
+                ulong actionSetId = OpenXRInput.Internal_CreateActionSet(OpenXRInput.SanitizeStringForOpenXRPath(actionMap.name), actionMapLocalizedName, default);
                 if (actionSetId == 0UL)
                 {
                     OpenXRRuntime.LogLastError();
@@ -203,7 +155,7 @@ namespace UnityEngine.XR.OpenXR.Input
                     string name = OpenXRInput.SanitizeStringForOpenXRPath(action.name);
                     string localizedName = action.localizedName;
                     uint type = (uint)action.type;
-                    OpenXRInput.SerializedGuid guid = default(OpenXRInput.SerializedGuid);
+                    OpenXRInput.SerializedGuid guid = default;
                     string[] userPaths = allUserPaths;
                     uint userPathCount = (uint)allUserPaths.Length;
                     bool isAdditive = action.isAdditive;
@@ -284,7 +236,7 @@ namespace UnityEngine.XR.OpenXR.Input
             {
                 return input;
             }
-            StringBuilder sb = new StringBuilder(input, 0, i, input.Length);
+            StringBuilder sb = new(input, 0, i, input.Length);
             while (i < input.Length)
             {
                 char c = OpenXRInput.SanitizeCharForOpenXRPath(input[i]);
@@ -528,10 +480,24 @@ namespace UnityEngine.XR.OpenXR.Input
             {
                 return 0U;
             }
+            //return (uint)inputDevice.deviceId;
+            //foreach (var dev in InputSystem.InputSystem.s_Manager.devices)
+            //{
+            //    if (dev.name == inputDevice.name)
+            //    {
+            //        return (uint)dev.deviceId;
+            //    }
+            //}
+            //todo
             OpenXRInput.GetInternalDeviceIdCommand command = OpenXRInput.GetInternalDeviceIdCommand.Create();
-            if (inputDevice.ExecuteCommand<OpenXRInput.GetInternalDeviceIdCommand>(ref command) != 0L)
+            //if (inputDevice.ExecuteCommand<OpenXRInput.GetInternalDeviceIdCommand>(ref command) != 0L)
+            unsafe
             {
-                return command.deviceId;
+                InputDeviceCommand* ptr = (InputDeviceCommand*)&command;
+                if (inputDevice.ExecuteCommand(ptr) != 0L)
+                {
+                    return command.deviceId;
+                }
             }
             return 0U;
         }
@@ -550,7 +516,7 @@ namespace UnityEngine.XR.OpenXR.Input
                 '/',
                 '_'
             });
-            StringBuilder nameBuilder = new StringBuilder("OXR");
+            StringBuilder nameBuilder = new("OXR");
             foreach (string part in array)
             {
                 if (part.Length != 0)
@@ -654,7 +620,7 @@ namespace UnityEngine.XR.OpenXR.Input
         // Note: this type is marked as 'beforefieldinit'.
         static OpenXRInput()
         {
-            Dictionary<string, OpenXRInteractionFeature.ActionType> dictionary = new Dictionary<string, OpenXRInteractionFeature.ActionType>();
+            Dictionary<string, OpenXRInteractionFeature.ActionType> dictionary = new();
             dictionary["Digital"] = OpenXRInteractionFeature.ActionType.Binary;
             dictionary["Button"] = OpenXRInteractionFeature.ActionType.Binary;
             dictionary["Axis"] = OpenXRInteractionFeature.ActionType.Axis1D;
@@ -668,7 +634,7 @@ namespace UnityEngine.XR.OpenXR.Input
             dictionary["Quaternion"] = OpenXRInteractionFeature.ActionType.Pose;
             dictionary["Haptic"] = OpenXRInteractionFeature.ActionType.Vibrate;
             OpenXRInput.ExpectedControlTypeToActionType = dictionary;
-            Dictionary<string, string> dictionary2 = new Dictionary<string, string>();
+            Dictionary<string, string> dictionary2 = new();
             dictionary2["deviceposition"] = "devicepose";
             dictionary2["devicerotation"] = "devicepose";
             dictionary2["trackingstate"] = "devicepose";
