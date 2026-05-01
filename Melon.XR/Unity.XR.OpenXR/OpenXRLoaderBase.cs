@@ -133,6 +133,7 @@ namespace UnityEngine.XR.OpenXR
             OnApplicationRender = new System.Action(ProcessOpenXRMessageLoop);
             this.currentLoaderState = OpenXRLoaderBase.LoaderState.InitializeAttempted;
             OpenXRLoaderBase.Internal_SetSuccessfullyInitialized(false);
+            //todo re-enable??
             OpenXRInput.RegisterLayouts();
             OpenXRFeature.Initialize();
             if (!this.LoadOpenXRSymbols())
@@ -714,7 +715,7 @@ namespace UnityEngine.XR.OpenXR
         private OpenXRFeature.NativeEvent currentOpenXRState;
 
         // Token: 0x0400004D RID: 77
-        private bool actionSetsAttached;
+        private bool actionSetsAttached = false;
 
         // Token: 0x0400004E RID: 78
         private UnhandledExceptionEventHandler unhandledExceptionHandler;

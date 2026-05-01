@@ -13,8 +13,10 @@ using UnityEngine.SubsystemsImplementation;
 using UnityEngine.XR;
 using UnityEngine.XR.Management;
 using UnityEngine.XR.OpenXR;
+using UnityEngine.XR.OpenXR.Features;
 using UnityEngine.XR.OpenXR.Features.Interactions;
 using UnityEngine.XR.OpenXR.Il2CppShenanigans;
+using UnityEngine.XR.OpenXR.Input;
 using InputControlAttribute = UnityEngine.XR.OpenXR.Il2CppShenanigans.InputControlAttribute;
 using InputControlLayoutAttribute = UnityEngine.XR.OpenXR.Il2CppShenanigans.InputControlLayoutAttribute;
 
@@ -25,6 +27,7 @@ namespace SteamXR_Melon
         private static XRDisplaySubsystem xrDisplay;
         private static XRInputSubsystem xrInput;
         private static Il2CppSystem.Collections.Generic.List<Il2CppSystem.Object> list = new();
+        private static bool init = false;
 
         public static void Initialize()
         {
@@ -88,33 +91,26 @@ namespace SteamXR_Melon
                 }
             }
 
+            //create our own featureset here
+            OpenXRSettings.Instance.features = new OpenXRFeature[] { new HPReverbG2ControllerProfile() { enabled = true }, new DPadInteraction() { enabled = true } };
             MelonLogger.Msg("Starting XR Subsystems");
+
             XRGeneralSettings.Instance.Manager.StartSubsystems();
 
-            foreach (var supported in XRGraphics.supportedDevices)
-            {
-                MelonLogger.Msg("supported: " + supported);
-            }
-            list.Add(obj);
-            list.Add(list);
-            list.Add(XRGeneralSettings.Instance);
-            list.Add(XRGeneralSettings.Instance.Manager);
-            list.Add(loader);
-
-            RegisterAllInputDevices();
+            //RegisterAllInputDevices();
 
             //this should then load the corresponding, injected control template into the input map and then our devices should :tm: work :D
             XRSupport.Initialize();
+        }
 
-            //foreach (var item in InputSystem.s_Manager.m_Layouts.layoutTypes)
-            //{
-            //    MelonLogger.Msg(item.value.Name);
-            //}
-
-            //var pad = InputSystem.AddDevice<HPReverbG2ControllerProfile.ReverbG2Controller>();
-            //MelonLogger.Msg("added " + pad.displayName);
-            //var pad2 = InputSystem.AddDevice<DPadInteraction.DPadDevice>();
-            //MelonLogger.Msg("added " + pad2.displayName);
+        //call on first scene load
+        public static void FirstSceneLoadInit()
+        {
+            if (!init)
+            {
+                //InputMap.Init();
+                init = true;
+            }
         }
 
         private static void RegisterAllInputDevices()

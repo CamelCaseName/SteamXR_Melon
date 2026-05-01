@@ -11,6 +11,9 @@
 	  <Configurations>Debug;Release</Configurations>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="Silk.NET.OpenXR" Version="2.23.0" />
+  </ItemGroup>
+  <ItemGroup>
     <Reference Include="0Harmony">
       <HintPath>G:\SteamLibrary\steamapps\common\House Party\MelonLoader\net6\0Harmony.dll</HintPath>
       <Private>False</Private>

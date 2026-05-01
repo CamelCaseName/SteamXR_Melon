@@ -294,25 +294,26 @@ namespace UnityEngine.XR.OpenXR.Features.Interactions
                                 interactionProfileName = "/interaction_profiles/hp/mixed_reality_controller"
                             }
                         }
-                    },
-                    new OpenXRInteractionFeature.ActionConfig
-                    {
-                        name = "haptic",
-                        localizedName = "Haptic Output",
-                        type = OpenXRInteractionFeature.ActionType.Vibrate,
-                        usages = new List<string>
-                        {
-                            "Haptic"
-                        },
-                        bindings = new List<OpenXRInteractionFeature.ActionBinding>
-                        {
-                            new OpenXRInteractionFeature.ActionBinding
-                            {
-                                interactionPath = "/output/haptic",
-                                interactionProfileName = "/interaction_profiles/hp/mixed_reality_controller"
-                            }
-                        }
                     }
+                    //,
+                    //new OpenXRInteractionFeature.ActionConfig
+                    //{
+                    //    name = "haptic",
+                    //    localizedName = "Haptic Output",
+                    //    type = OpenXRInteractionFeature.ActionType.Vibrate,
+                    //    usages = new List<string>
+                    //    {
+                    //        "Haptic"
+                    //    },
+                    //    bindings = new List<OpenXRInteractionFeature.ActionBinding>
+                    //    {
+                    //        new OpenXRInteractionFeature.ActionBinding
+                    //        {
+                    //            interactionPath = "/output/haptic",
+                    //            interactionProfileName = "/interaction_profiles/hp/mixed_reality_controller"
+                    //        }
+                    //    }
+                    //}
                 }
             };
             base.AddActionMap(actionMap);

@@ -39,11 +39,11 @@ namespace UnityEngine.XR.OpenXR.Features
 				{
 					return;
 				}
-				if (OpenXRLoaderBase.Instance != null)
-				{
-					MelonLogger.Error("OpenXRFeature.enabled cannot be changed while OpenXR is running");
-					return;
-				}
+				//if (OpenXRLoaderBase.Instance != null)
+				//{
+				//	MelonLogger.Error("OpenXRFeature.enabled cannot be changed while OpenXR is running");
+				//	return;
+				//}
 				this.m_enabled = value;
 				this.OnEnabledChange();
 			}
@@ -433,22 +433,22 @@ namespace UnityEngine.XR.OpenXR.Features
 		}
 
 		// Token: 0x06000188 RID: 392 RVA: 0x000056CC File Offset: 0x000038CC
-		protected ulong GetAction(InputAction inputAction)
-		{
-			return OpenXRInput.GetActionHandle(inputAction, inputDevice: default);
-		}
+		//protected ulong GetAction(InputAction inputAction)
+		//{
+		//	return OpenXRInput.GetActionHandle(inputAction, inputDevice: default);
+		//}
 
-		// Token: 0x06000189 RID: 393 RVA: 0x000056D5 File Offset: 0x000038D5
-		protected ulong GetAction(InputSystem.InputDevice device, InputFeatureUsage usage)
-		{
-			return OpenXRInput.GetActionHandle(device, usage);
-		}
+		//// Token: 0x06000189 RID: 393 RVA: 0x000056D5 File Offset: 0x000038D5
+		//protected ulong GetAction(InputSystem.InputDevice device, InputFeatureUsage usage)
+		//{
+		//	return OpenXRInput.GetActionHandle(device, usage);
+		//}
 
-		// Token: 0x0600018A RID: 394 RVA: 0x000056DE File Offset: 0x000038DE
-		protected ulong GetAction(InputSystem.InputDevice device, string usageName)
-		{
-			return OpenXRInput.GetActionHandle(device, usageName);
-		}
+		//// Token: 0x0600018A RID: 394 RVA: 0x000056DE File Offset: 0x000038DE
+		//protected ulong GetAction(InputSystem.InputDevice device, string usageName)
+		//{
+		//	return OpenXRInput.GetActionHandle(device, usageName);
+		//}
 
 		// Token: 0x0600018B RID: 395 RVA: 0x000056E7 File Offset: 0x000038E7
 		protected internal static ulong RegisterStatsDescriptor(string statName, OpenXRFeature.StatFlags statFlags)

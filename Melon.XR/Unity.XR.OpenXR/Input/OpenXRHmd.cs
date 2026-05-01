@@ -24,8 +24,8 @@ namespace UnityEngine.XR.OpenXR.Input
         private ButtonControl userPresence;
 
         // Token: 0x060000FA RID: 250 RVA: 0x0000419A File Offset: 0x0000239A
-public override void FinishSetup()
-{
+        public override void FinishSetup()
+        {
             if (i == 0)
             {
                 i++;

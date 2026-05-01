@@ -478,7 +478,7 @@ namespace UnityEngine.XR.OpenXR
 		//[SerializeField]
 		//[FormerlySerializedAs("extensions")]
 		//[HideInInspector]
-		internal OpenXRFeature[] features = new OpenXRFeature[0];
+		public OpenXRFeature[] features = new OpenXRFeature[0];
 
 		// Token: 0x04000007 RID: 7
 		public static readonly OpenXRSettings.ColorSubmissionModeGroup kDefaultColorMode;
