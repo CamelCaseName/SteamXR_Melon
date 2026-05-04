@@ -3,8 +3,6 @@ using Il2CppInterop.Runtime.Injection;
 using System.Collections.Generic;
 using UnityEngine.InputSystem.Controls;
 using UnityEngine.InputSystem.Layouts;
-using UnityEngine.InputSystem.LowLevel;
-using UnityEngine.InputSystem.Utilities;
 using UnityEngine.InputSystem.XR;
 using UnityEngine.XR.OpenXR.Input;
 using InputControlAttribute = UnityEngine.XR.OpenXR.Il2CppShenanigans.InputControlAttribute;

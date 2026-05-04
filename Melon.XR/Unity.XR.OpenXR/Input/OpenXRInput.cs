@@ -15,10 +15,10 @@ namespace UnityEngine.XR.OpenXR.Input
     // Token: 0x0200003A RID: 58
     public static class OpenXRInput
     {
-        private static readonly Dictionary<OpenXRInteractionFeature.ActionMapConfig, ulong> actionSetIds = new();
-        private static readonly Dictionary<OpenXRInteractionFeature.ActionConfig, ulong> actionIds = new();
+        private static readonly Dictionary<OpenXRInteractionFeature.ActionMapConfig, List<ulong>> actionSetIds = new();
+        private static readonly Dictionary<OpenXRInteractionFeature.ActionConfig, List<ulong>> actionIds = new();
         public static readonly Dictionary<string, List<ulong>> namedActionIds = new();
-        private static readonly Dictionary<OpenXRInteractionFeature.ActionConfig, List<OpenXRInteractionFeature.ActionBinding>> actionBindings = new();
+        private static readonly Dictionary<ulong, List<OpenXRInteractionFeature.ActionBinding>> actionBindings = new();
         private static readonly List<OpenXRInteractionFeature.ActionMapConfig> actionMaps = new();
         private static readonly Dictionary<string, List<SerializedBinding>> interactionProfiles = new();
         private static readonly Dictionary<string, string> inputMap = new();
@@ -47,13 +47,14 @@ namespace UnityEngine.XR.OpenXR.Input
             if (inputMap.TryGetValue(actionName, out var openxrName))
             {
                 MelonLogger.Msg("[HPVR Input] got mapped " + openxrName + " for " + actionName);
-                if (namedActionIds.TryGetValue(openxrName, out var actionIds))
+                if (namedActionIds.TryGetValue(openxrName.ToLower(), out var actionIds))
                 {
                     ActionStateGetInfo info = new();
                     ActionStateBoolean state = new();
                     foreach (var action in actionIds)
                     {
-                        MelonLogger.Msg("[HPVR Input] action id: " + action);
+                        MelonLogger.Msg($"[HPVR Input] action id: 0x{action:x}");
+                        info.Action = new(action);
                         //poll here and return if good
                         var res = xr.GetActionStateBoolean(session, ref info, ref state);
                         if (res != Result.Success)
@@ -68,10 +69,14 @@ namespace UnityEngine.XR.OpenXR.Input
                     }
                     MelonLogger.Msg("[HPVR Input] not active");
                 }
+                else
+                {
+                    MelonLogger.Msg("[HPVR Input] couldnt find any id for action: " + openxrName);
+                }
             }
             else
             {
-                MelonLogger.Msg("[HPVR Input] couldnt find andy mapped input for " + actionName);
+                MelonLogger.Msg("[HPVR Input] couldnt find any mapped input for " + actionName);
             }
             return false;
         }
@@ -210,7 +215,7 @@ namespace UnityEngine.XR.OpenXR.Input
         }
 
         // Token: 0x06000100 RID: 256 RVA: 0x00004554 File Offset: 0x00002754
-        public static bool CreateActions(List<OpenXRInteractionFeature.ActionMapConfig> actionMaps, Dictionary<string, List<SerializedBinding>> interactionProfiles)
+        public static unsafe bool CreateActions(List<OpenXRInteractionFeature.ActionMapConfig> actionMaps, Dictionary<string, List<SerializedBinding>> interactionProfiles)
         {
             xr ??= Silk.NET.OpenXR.XR.GetApi();
 
@@ -241,7 +246,14 @@ namespace UnityEngine.XR.OpenXR.Input
                 }
                 MelonLogger.Msg($"[HPVR Input] registering action map for openxr - name: {actionMap.name}");
 
-                actionSetIds.Add(actionMap, actionSetId);
+                if (actionSetIds.TryGetValue(actionMap, out var idList))
+                {
+                    idList.Add(actionSetId);
+                }
+                else
+                {
+                    actionSetIds.Add(actionMap, new() { actionSetId });
+                }
 
                 List<string> deviceUserPaths = (from d in actionMap.deviceInfos
                                                 select d.userPath).ToList();
@@ -254,20 +266,37 @@ namespace UnityEngine.XR.OpenXR.Input
                     string name = SanitizeStringForOpenXRPath(action.name);
                     string localizedName = action.localizedName;
                     uint type = (uint)action.type;
-                    SerializedGuid guid = default;
+                    SerializedGuid guid = new() { guid = Guid.NewGuid() };
                     string[] userPaths = allUserPaths;
                     uint userPathCount = (uint)allUserPaths.Length;
                     bool isAdditive = action.isAdditive;
                     List<string> usages = action.usages;
                     string[] usages2 = usages?.ToArray();
                     List<string> usages3 = action.usages;
-                    ulong actionId = InternalCreateAction(actionSetId2, name, localizedName, type, guid, userPaths, userPathCount, isAdditive, usages2, (uint)((usages3 != null) ? usages3.Count : 0));
-                    if (actionId == 0UL)
+                    ulong result = InternalCreateAction(actionSetId2, name, localizedName, type, guid, userPaths, userPathCount, isAdditive, usages2, (uint)((usages3 != null) ? usages3.Count : 0));
+                    if (result == 0UL)
                     {
+                        MelonLogger.Error($"could not create {name} [type = {type}]");
                         OpenXRRuntime.LogLastError();
                         return false;
                     }
-                    actionIds.Add(action, actionId);
+                    ulong actionId = result + 0x18f;
+                    //ulong actionId = InternalGetActionIdByGUID(&guid);
+                    //if (actionId == 0UL)
+                    //{
+                    //    MelonLogger.Error($"could not get id for {name} [type = {type}]");
+                    //    OpenXRRuntime.LogLastError();
+                    //    return false;
+                    //}
+                    MelonLogger.Msg($"Got id 0x{actionId:x} for {name} [type = {type}]");
+                    if (actionIds.TryGetValue(action, out var actionidList))
+                    {
+                        actionidList.Add(actionId);
+                    }
+                    else
+                    {
+                        actionIds.Add(action, new() { actionId });
+                    }
                     if (namedActionIds.TryGetValue(action.name.ToLower(), out var list))
                     {
                         list.Add(actionId);
@@ -276,7 +305,7 @@ namespace UnityEngine.XR.OpenXR.Input
                     {
                         namedActionIds.Add(action.name.ToLower(), new() { actionId });
                     }
-                    actionBindings.Add(action, new());
+                    actionBindings.Add(actionId, new());
                     foreach (OpenXRInteractionFeature.ActionBinding binding in action.bindings)
                     {
                         foreach (string userPath in (binding.userPaths ?? deviceUserPaths))
@@ -288,7 +317,7 @@ namespace UnityEngine.XR.OpenXR.Input
                                 bindings = new List<SerializedBinding>();
                                 interactionProfiles[interactionProfile] = bindings;
                             }
-                            actionBindings[action].Add(binding);
+                            actionBindings[actionId].Add(binding);
                             bindings.Add(new SerializedBinding
                             {
                                 actionId = actionId,
@@ -724,6 +753,9 @@ namespace UnityEngine.XR.OpenXR.Input
 
         [DllImport("UnityOpenXR", CharSet = CharSet.Ansi, EntryPoint = "OpenXRInputProvider_GetXRSession")]
         public static unsafe extern void InternalGetXRsession(ulong* xrSession);
+
+        [DllImport("UnityOpenXR", CharSet = CharSet.Ansi, EntryPoint = "OpenXRInputProvider_GetActionIdByGuid")]
+        public static unsafe extern ulong InternalGetActionIdByGUID(SerializedGuid* guid);
 
         // Token: 0x0600012B RID: 299
         [DllImport("UnityOpenXR", CharSet = CharSet.Ansi, EntryPoint = "OpenXRInputProvider_GetDeviceId")]
