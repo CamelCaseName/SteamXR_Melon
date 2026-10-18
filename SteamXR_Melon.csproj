@@ -12,6 +12,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Melon.XR\Unity.XR.Management\obj\**" />
+    <Compile Remove="Melon.XR\Unity.XR.OpenXR\obj\**" />
+    <EmbeddedResource Remove="Melon.XR\Unity.XR.Management\obj\**" />
+    <EmbeddedResource Remove="Melon.XR\Unity.XR.OpenXR\obj\**" />
+    <None Remove="Melon.XR\Unity.XR.Management\obj\**" />
+    <None Remove="Melon.XR\Unity.XR.OpenXR\obj\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\SteamVR_Melon\SteamVR_Melon.csproj" />
   </ItemGroup>
 
