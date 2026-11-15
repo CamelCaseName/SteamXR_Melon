@@ -39,8 +39,8 @@ namespace SteamXR_Melon
                 MelonLogger.Msg("display id: " + d.id);
 
                 //MelonLogger.Msg("casting the descriptor");
-
-                if (d.id.Contains("Display"))
+                //could also be OpenXR
+                if (d.id == "OpenVR Display")
                 {
                     var disp = d.Cast<XRDisplaySubsystemDescriptor>();
                     //MelonLogger.Msg(disp.disablesLegacyVr);
@@ -52,7 +52,8 @@ namespace SteamXR_Melon
                     MelonLogger.Msg("Starting openvr subsystem instance");
                     xrDisplay.Start();
                 }
-                else if (d.id.Contains("Input"))
+                //could also be OpenXR
+                else if (d.id == "OpenVR Input")
                 {
                     var inp = d.Cast<XRInputSubsystemDescriptor>();
                     //MelonLogger.Msg(inp.disablesLegacyInput);
